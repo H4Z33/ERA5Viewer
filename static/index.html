@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERA5 Land Data Viewer v3</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Column: Map View (60%) -->
+        <section class="map-panel">
+            <div id="map"></div>
+            
+            <!-- Map Overlay: Unified Single-Row Control Strip -->
+            <div class="map-overlay-top">
+                <div class="playback-hud single-row" id="main-playback-hud">
+                    <!-- Section 1: Playback Controls -->
+                    <div class="action-buttons">
+                        <button id="play-btn" class="icon-btn play"><i class="fas fa-play"></i></button>
+                        <button id="stop-btn" class="icon-btn stop" disabled><i class="fas fa-stop"></i></button>
+                        <div class="fps-group">
+                            <label>FPS</label>
+                            <select id="fps-select">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="24">24</option>
+                                <option value="60">60</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 2: Centered Timeline -->
+                    <div class="pro-timeline-container">
+                        <div class="waveform-wrapper">
+                            <canvas id="timeline-canvas"></canvas>
+                            <input type="range" id="time-slider" min="0" max="0" value="0" disabled>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Chronology Readout -->
+                    <div class="chronology-group">
+                        <span id="current-time">YYYY-MM-DD</span>
+                        <span id="step-counter" class="step-badge">0 / 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Merged Bottom-Left HUD: Intel & Stats -->
+            <div class="floating-hud bottom-left" id="stats-overlay">
+                <div class="hud-header">Scientific Context</div>
+                <p id="variable-description" class="description-text">Select a variable to begin analysis.</p>
+                <div class="floating-stats-grid">
+                    <div class="f-stat"><label>Global Range</label><span id="global-range-val">--</span></div>
+                    <div class="f-stat"><label>Step Mean</label><span id="step-mean-val">--</span></div>
+                    <div class="f-stat"><label>Step Range</label><span id="step-range-val">--</span></div>
+                </div>
+            </div>
+
+            <div class="map-legend-overlay">
+                <div id="legend"></div>
+            </div>
+        </section>
+
+        <!-- Right Column: Command Sidebar (40%) -->
+        <aside class="side-panel">
+            <header class="navbar sidebar-mode">
+                <div class="nav-branding">
+                    <h1>ERA5<span>Viewer</span></h1>
+                    <p>Climate Intel v3</p>
+                </div>
+
+                <div class="nav-filters vertical">
+                    <div class="filter-grid-top">
+                        <div class="nav-group">
+                            <label>Dataset</label>
+                            <select id="dataset-select">
+                                <option value="">Select...</option>
+                            </select>
+                        </div>
+                        <div class="nav-group">
+                            <label>Variable</label>
+                            <select id="variable-select" disabled>
+                                <option value="">Select...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-row-bottom">
+                        <div class="nav-group compact-view">
+                            <label>View</label>
+                            <select id="granularity-select">
+                                <option value="original">Hourly</option>
+                                <option value="daily">Daily</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+                        </div>
+                        <div class="nav-group compact-range">
+                            <label>Range</label>
+                            <div class="range-inputs">
+                                <input type="date" id="start-date">
+                                <input type="date" id="end-date">
+                            </div>
+                        </div>
+                        <button id="generate-btn" class="primary-btn generate compact" disabled>GENERATE</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Analytics -->
+            <section class="analytics-panel sidebar-scroll">
+                <div class="analytics-header">
+                    <h2>Scientific Visualization <span>Dashboard</span></h2>
+                    <div id="variable-brief" class="variable-brief"></div>
+                </div>
+                <div id="analytics-content">
+                    <p class="placeholder">Awaiting Intel Generation...</p>
+                </div>
+            </section>
+        </aside>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
