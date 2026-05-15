@@ -152,6 +152,9 @@ class Era5Viewer {
         document.getElementById('time-slider').addEventListener('input', (e) => this.onTimeSliderChange(parseInt(e.target.value)));
         
         document.getElementById('generate-btn').addEventListener('click', () => this.onGenerateClick());
+        document.getElementById('analyze-btn').addEventListener('click', () => this.toggleReportView(true));
+        document.getElementById('close-report').addEventListener('click', () => this.toggleReportView(false));
+        document.getElementById('download-report').addEventListener('click', () => this.downloadReport());
         
         document.getElementById('play-btn').addEventListener('click', () => this.togglePlayback());
         document.getElementById('stop-btn').addEventListener('click', () => this.stopPlayback());
@@ -246,6 +249,42 @@ class Era5Viewer {
             this.clearLayer(); this.clearStats();
             document.getElementById('variable-brief').textContent = "";
         }
+    }
+
+    async toggleReportView(show) {
+        const dashboard = document.getElementById('dashboard-view');
+        const report = document.getElementById('report-view');
+        const content = document.getElementById('report-content');
+
+        if (show) {
+            if (!this.selectedFile) {
+                alert("Please select a dataset first.");
+                return;
+            }
+            dashboard.classList.add('hidden');
+            report.classList.remove('hidden');
+            content.innerHTML = '<div class="loader"><div class="spinner"></div>Analysing Dataset...</div>';
+            
+            try {
+                const resp = await fetch(`/api/detailed-report/${this.selectedFile}`);
+                const data = await resp.json();
+                if (data.error) {
+                    content.innerHTML = `<div class="placeholder" style="color: #ef4444;">${data.error}</div>`;
+                } else {
+                    content.innerHTML = data.report;
+                }
+            } catch (err) {
+                content.innerHTML = '<div class="placeholder" style="color: #ef4444;">Failed to load scientific report.</div>';
+            }
+        } else {
+            dashboard.classList.remove('hidden');
+            report.classList.add('hidden');
+        }
+    }
+
+    async downloadReport() {
+        if (!this.selectedFile) return;
+        window.location.href = `/api/download-report/${this.selectedFile}`;
     }
 
     onFilterUpdate(type, val) {

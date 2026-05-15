@@ -17,4 +17,7 @@ dependencies = [
     "cdsapi>=0.7.3",
     "dask>=2025.2.0",
     "zarr>=3.0.1",
+    "scipy>=1.17.1",
+    "fpdf2>=2.8.7",
+    "scikit-learn>=1.6.0",
 ]

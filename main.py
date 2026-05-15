@@ -385,6 +385,135 @@ async def get_timeline_data(collection_id: str, variable: str, granularity: str 
             }
     return {"times": [], "means": []}
 
+@app.get("/api/detailed-report/{collection_id}")
+async def get_detailed_report(collection_id: str):
+    # Try pre-generated first
+    report_path = Path("reports") / f"audit_{collection_id}.txt"
+    if report_path.exists():
+        try:
+            with open(report_path, "r", encoding="utf-8") as f:
+                return {"report": f.read()}
+        except: pass
+
+    # If not found, generate dynamically from DB stats
+    logger.info(f"Generating dynamic audit for {collection_id}...")
+    try:
+        # Get filenames from manager OR fallback to direct folder scan
+        collection_files = data_manager.collections.get(collection_id, [])
+        if not collection_files:
+            # Fallback scan for the specific collection folder
+            coll_path = Path(collection_id)
+            if coll_path.exists() and coll_path.is_dir():
+                collection_files = list(coll_path.glob("*.nc"))
+        
+        filenames = [p.name for p in collection_files]
+        if not filenames:
+            return {"error": f"No files found for collection '{collection_id}'. Please ensure the folder exists and contains .nc files."}
+            
+        with sqlite3.connect(data_manager.db.db_path) as conn:
+            # Query all temporal stats for this collection
+            df_stats = pd.read_sql_query(
+                "SELECT variable, time_str, mean FROM hourly_stats WHERE filename IN ({})".format(
+                    ",".join(["?"] * len(filenames))
+                ), conn, params=filenames
+            )
+        
+        if df_stats.empty:
+            return {"error": "Insufficient data in the statistics engine to perform an audit."}
+            
+        # Pivot to get variables as columns
+        df_pivot = df_stats.pivot(index='time_str', columns='variable', values='mean')
+        
+        # Recuperar metadata de las variables (unidades, nombres largos)
+        with sqlite3.connect(data_manager.db.db_path) as conn:
+            df_meta = pd.read_sql_query(
+                "SELECT variable, units, long_name, min, max FROM global_stats WHERE collection_id = ?", 
+                conn, params=(collection_id,)
+            )
+        metadata = df_meta.set_index('variable').to_dict('index')
+
+        # Run audit in memory
+        from analytics_utils import ScientificAudit
+        audit = ScientificAudit(df_pivot, dataset_name=f"{collection_id}", metadata=metadata)
+        report_html = audit.generate_html_report()
+        
+        return {"report": report_html}
+    except Exception as e:
+        logger.error(f"Dynamic audit failed: {e}")
+        return {"error": f"Dynamic audit failed: {str(e)}"}
+
+@app.get("/api/download-report/{collection_id}")
+async def download_report(collection_id: str):
+    try:
+        filenames = [p.name for p in data_manager.collections.get(collection_id, [])]
+        if not filenames:
+            coll_path = Path(collection_id)
+            if coll_path.exists() and coll_path.is_dir():
+                filenames = [p.name for p in coll_path.glob("*.nc")]
+        
+        if not filenames:
+            return {"error": "No data found for collection."}
+
+        with sqlite3.connect(data_manager.db.db_path) as conn:
+            df_stats = pd.read_sql_query(
+                "SELECT variable, time_str, mean FROM hourly_stats WHERE filename IN ({})".format(
+                    ",".join(["?"] * len(filenames))
+                ), conn, params=filenames
+            )
+        
+        if df_stats.empty:
+            return {"error": "Insufficient data."}
+
+        df_pivot = df_stats.pivot(index='time_str', columns='variable', values='mean')
+        
+        from analytics_utils import ScientificAudit
+        audit = ScientificAudit(df_pivot, dataset_name=f"{collection_id}")
+        
+        # Generar PDF
+        pdf_content = audit.generate_pdf_report()
+        
+        return Response(
+            content=bytes(pdf_content), # Convertir bytearray a bytes
+            media_type="application/pdf",
+            headers={"Content-Disposition": f"attachment; filename=Reporte_Cientifico_{collection_id}.pdf"}
+        )
+    except Exception as e:
+        logger.error(f"Failed to generate PDF: {e}")
+        return {"error": f"Failed to generate PDF: {str(e)}"}
+
+@app.get("/api/correlation-report")
+async def get_correlation_report():
+    """Generate a multivariate correlation analysis report (t2m ↔ swvl1 ↔ pev)."""
+    try:
+        from correlation_analysis import generate_correlation_html_report
+        html = generate_correlation_html_report()
+        return {"report": html}
+    except Exception as e:
+        logger.error(f"Correlation report failed: {e}")
+        return {"error": f"Correlation report failed: {str(e)}"}
+
+@app.get("/api/chsi-report")
+async def get_chsi_report(model: str = "rf"):
+    """Generate a CHSI (Composite Hydric Stress Index) derivation report."""
+    try:
+        from ml_pipeline import generate_chsi_html_report
+        html, results = generate_chsi_html_report(model_type=model)
+        return {"report": html}
+    except Exception as e:
+        logger.error(f"CHSI report failed: {e}")
+        return {"error": f"CHSI report failed: {str(e)}"}
+
+@app.get("/api/validation-report")
+async def get_validation_report():
+    """Generate a CHSI validation report against documented extreme events."""
+    try:
+        from validation import generate_validation_html_report
+        html = generate_validation_html_report()
+        return {"report": html}
+    except Exception as e:
+        logger.error(f"Validation report failed: {e}")
+        return {"error": f"Validation report failed: {str(e)}"}
+
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 if __name__ == "__main__":

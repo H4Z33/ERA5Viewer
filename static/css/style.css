@@ -592,6 +592,65 @@ input[type=range]::-webkit-slider-thumb {
     border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
+.action-buttons-sidebar {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.icon-btn.science {
+    color: #facc15; /* Yellow/Gold for Science */
+    border-color: rgba(250, 204, 21, 0.3);
+}
+
+.icon-btn.science:hover {
+    background: #facc15;
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+}
+
+/* REPORT VIEW */
+#report-view {
+    padding: 0.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.report-header h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-color);
+}
+
+#report-content {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.hidden { display: none !important; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* UTILS */
 .loader {
     display: flex;

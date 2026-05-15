@@ -8,6 +8,7 @@ import re
 import logging
 import json
 import time
+from analytics_utils import ScientificAudit
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -148,6 +149,28 @@ def main():
         choice = input("\nDo you want to consolidate NetCDF files into a high-performance Zarr store? (y/n): ")
         if choice.lower() == 'y':
             consolidate_to_zarr("era5_land_tamaulipas")
+            
+    # 4. Generate Scientific Audit Report
+    if ZARR_PATH.exists():
+        logger.info("Generating Scientific Audit Report...")
+        try:
+            # Query the database for temporal stats to audit
+            with sqlite3.connect(DB_PATH) as conn:
+                df_stats = pd.read_sql_query("SELECT variable, time_str, mean FROM hourly_stats", conn)
+            
+            if not df_stats.empty:
+                # Pivot to get variables as columns for correlation analysis
+                df_pivot = df_stats.pivot(index='time_str', columns='variable', values='mean')
+                
+                reports_dir = DATA_DIR / "reports"
+                if not reports_dir.exists(): reports_dir.mkdir()
+                
+                audit = ScientificAudit(df_pivot, dataset_name="ERA5 Tamaulipas Temporal Trends")
+                audit.generate_report(reports_dir / "audit_report.txt")
+                audit.save_visual_audit(str(reports_dir))
+                logger.info(f"Scientific Audit complete. Reports saved to: {reports_dir.absolute()}")
+        except Exception as e:
+            logger.error(f"Failed to generate scientific audit: {e}")
 
 if __name__ == "__main__":
     main()

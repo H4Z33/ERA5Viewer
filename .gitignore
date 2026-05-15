@@ -16,3 +16,7 @@ wheels/
 extracted_*/
 .gemini/
 .DS_Store
+
+# Large generated files
+datasets_manifest.json
+reports/*.html
