@@ -202,34 +202,32 @@ def generate_figure_4():
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.5))
     
-    x = np.arange(len(folds))
-    width = 0.35
-    
     # 1. RMSE subplot
-    ax1.bar(x - width/2, rf_rmse, width, label="Random Forest (RF)", color="#6c8ebf", alpha=0.9)
-    ax1.bar(x + width/2, gbr_rmse, width, label="Gradient Boosting (GBR)", color="#e06666", alpha=0.9)
-    ax1.set_xticks(x)
-    ax1.set_xticklabels([f"Fold {f}" for f in folds])
+    ax1.plot(folds, rf_rmse, 'o-', color="#3b82f6", linewidth=2, markersize=6, label="Random Forest (RF)")
+    ax1.plot(folds, gbr_rmse, 'd-', color="#ef4444", linewidth=2, markersize=6, label="Gradient Boosting (GBR)")
+    ax1.set_xticks(folds)
+    ax1.set_xlabel("Cross-Validation Fold")
     ax1.set_ylabel("RMSE")
     ax1.set_title("Root Mean Squared Error (Lower is Better)", fontweight="bold", fontsize=11)
-    ax1.legend()
+    ax1.legend(loc="upper right", frameon=True)
     ax1.grid(True, linestyle=":", alpha=0.6)
     sns.despine(ax=ax1)
     
     # 2. R2 subplot
-    ax2.bar(x - width/2, rf_r2, width, label="Random Forest (RF)", color="#6c8ebf", alpha=0.9)
-    ax2.bar(x + width/2, gbr_r2, width, label="Gradient Boosting (GBR)", color="#e06666", alpha=0.9)
-    ax2.set_ylim(0.97, 1.002)
-    ax2.set_xticks(x)
-    ax2.set_xticklabels([f"Fold {f}" for f in folds])
+    ax2.plot(folds, rf_r2, 'o-', color="#3b82f6", linewidth=2, markersize=6, label="Random Forest (RF)")
+    ax2.plot(folds, gbr_r2, 'd-', color="#ef4444", linewidth=2, markersize=6, label="Gradient Boosting (GBR)")
+    ax2.set_xticks(folds)
+    ax2.set_xlabel("Cross-Validation Fold")
     ax2.set_ylabel("$R^2$ Score")
     ax2.set_title("Coefficient of Determination $R^2$ (Higher is Better)", fontweight="bold", fontsize=11)
+    ax2.legend(loc="lower right", frameon=True)
     ax2.grid(True, linestyle=":", alpha=0.6)
     sns.despine(ax=ax2)
     
     plt.tight_layout()
     fig.savefig("reports/figures/04_ml_comparison.png")
     plt.close(fig)
+
 
 def generate_figure_5():
     """Figure 5: Feature Importances."""
