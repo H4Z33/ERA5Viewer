@@ -21,3 +21,4 @@ dependencies = [
     "fpdf2>=2.8.7",
     "scikit-learn>=1.6.0",
 ]
+

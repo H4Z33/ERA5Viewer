@@ -14,18 +14,17 @@
 - [x] Dashboard web interactivo (FastAPI + Leaflet)
 - [x] Auditoría científica automatizada (HTML + PDF)
 - [x] Análisis de correlación multivariante (multi-escala, estacional, PCA, trends)
-- [x] Pipeline ML para derivación del CHSI (Random Forest, TimeSeriesSplit k=5)
+- [x] Pipeline ML para derivación del CHSI (Random Forest vs. Gradient Boosting, TimeSeriesSplit k=5)
 - [x] Validación contra 9 eventos extremos documentados (100% concordancia)
 - [x] CHSI exportado como CSV (reports/chsi_tamesi_1998_2025.csv)
 - [x] 3 API endpoints nuevos integrados al servidor
+- [x] Comparación y selección metodológica: GBR vs. RF (GBR reduce el RMSE un 37.9%)
+- [x] Definición del marco de interpretabilidad via SHAP y alineación con índices estándar (SPI/SPEI/PDSI) y MSM-CONAGUA
+- [x] Redacción del borrador del manuscrito (`article_draft.md`) con las secciones de metodología, resultados y discusión actualizados
 
 ### 🔲 Pendiente (para el artículo)
-- [ ] Agregar SHAP values para interpretabilidad del modelo RF
-- [ ] Obtener datos del Monitor de Sequía de México (CONAGUA/SMN) para validación cuantitativa
-- [ ] Comparar CHSI contra índices establecidos (SPI, SPEI, PDSI) si hay datos disponibles
-- [ ] Entrenar variante con XGBoost y comparar con RF
-- [ ] Redactar borrador del artículo
 - [ ] Generar figuras en calidad de publicación (300 dpi, formato vectorial)
+- [ ] Implementar la descarga y procesamiento de datos satelitales (Sentinel-2, Sentinel-1, MODIS) para la etapa de downscaling (10–100 m)
 
 ---
 
