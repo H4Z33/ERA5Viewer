@@ -269,3 +269,36 @@ La línea de investigación doctoral busca demostrar que **parámetros hídricos
 3. **Inteligencia Artificial** (ML/DL para aprender las relaciones no lineales)
 
 El artículo del CHSI es un **proof of concept lateral**: demuestra que 3 variables observables de reanálisis pueden capturar la dinámica de un parámetro compuesto no medible directamente, validado contra eventos reales. Este resultado fundamenta la escalabilidad del enfoque cuando se integren datos de teledetección de mayor resolución espacial.
+
+---
+
+## 9. Adquisición de Datos Adicionales y Literatura (Procurement)
+
+Para cerrar las brechas identificadas en el artículo y avanzar hacia el downscaling de alta resolución espacial, se requiere la adquisición del siguiente material (literatura y bases de datos):
+
+### 📚 Literatura Científica (Buscar en WoS/IEEE e importar al proyecto 'default' de NautAI)
+1. **Metodología Oficial del Monitor de Sequía (MSM):**
+   - *Referencia:* Lobato-Sánchez, R. (2016). *El monitor de la sequía en México*. Tecnología y ciencias del agua, 7(5), 143-156.
+   - *Propósito:* Validar y contrastar la fórmula del CHSI contra la combinación de índices (como el modelo CPC Leaky Bucket Soil Moisture) utilizada por CONAGUA.
+2. **Uso de SPEI/SPI en el Calentamiento Global de México:**
+   - *Referencia:* Estudios sobre la comparación de SPI vs. SPEI bajo cambio climático en México (ej., estudios en *Atmosphere* 2025, DOI: `10.3390/atmos16020202`).
+   - *Propósito:* Justificar por qué la inclusión de la temperatura y la evaporación potencial en el CHSI ofrece un proxy más robusto que los índices basados puramente en precipitación (como el SPI).
+3. **Dinámica Hidrológica del Río Guayalejo-Tamesí:**
+   - *Referencia:* Artículos o tesis sobre el balance hídrico del sistema lagunario de Tampico-Madero-Altamira.
+   - *Propósito:* Contextualizar la geografía física del área de estudio en la Introducción.
+
+### 💾 Bases de Datos Requeridas (Para Validación y Downscaling)
+1. **Históricos del Monitor de Sequía de México (MSM - CONAGUA):**
+   - *Formato:* Archivos Shapefile (.shp) municipales o archivos Excel con los registros de categorías (D0 a D4) para los municipios de Tamaulipas (Altamira, Tampico, Mante, González, etc.).
+   - *Origen:* [Portal de CONAGUA - Monitor de Sequía](https://smn.conagua.gob.mx/es/climatologia/monitoreo-de-sequia/monitor-de-sequia-en-mexico)
+   - *Uso:* Validación cruzada cuantitativa del CHSI contra los niveles de sequía declarados administrativamente.
+2. **Estaciones Meteorológicas Superficiales (SMN):**
+   - *Variables:* Precipitación diaria ($mm$) y Temperaturas Máx/Mín ($^\circ\text{C}$).
+   - *Uso:* Validar la exactitud local de la grilla de ERA5-Land (t2m y estimación de humedad).
+3. **Teledetección (MODIS - MOD16A2 y MOD11A2):**
+   - *Frecuencia/Resolución:* 8 días, 500m/1km.
+   - *Uso:* Evapotranspiración Real (ET) y Temperatura Superficial del Suelo (LST) para el downscaling regional.
+4. **Teledetección (Sentinel-2 L2A):**
+   - *Resolución:* 10 metros (Óptico).
+   - *Uso:* Obtención de índices de vegetación y humedad (NDVI, NDWI, MSI) para mapear el estrés hídrico a escala de parcela agrícola.
+

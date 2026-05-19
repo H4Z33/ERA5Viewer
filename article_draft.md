@@ -40,7 +40,8 @@ Quantifying hydric stress in river basins is a fundamental challenge in hydrolog
 
 
 
-Traditional drought indices, such as the Standardized Precipitation Index (SPI) or the Palmer Drought Severity Index (PDSI), rely on meteorological abstractions and often fail to capture the high-frequency, sub-daily physical couplings between the soil and the lower atmosphere. The Copernicus Climate Change Service (C3S) ERA5-Land reanalysis dataset provides high-resolution (0.1° × 0.1°), long-term (since 1950) global estimates of land-surface variables, offering a major opportunity to analyze these couplings. 
+Traditional drought indices, such as the Standardized Precipitation Index (SPI) or the Palmer Drought Severity Index (PDSI), rely on meteorological abstractions and often fail to capture the high-frequency, sub-daily physical couplings between the soil and the lower atmosphere. In Mexico, the official **Monitor de Sequía de México (MSM)** managed by the **Comisión Nacional del Agua (CONAGUA)** integrates various inputs, including the NOAA Climate Prediction Center's **Leaky Bucket** Soil Moisture Model (Lobato-Sánchez, 2016), to estimate agricultural and hydrological drought states. However, the Leaky Bucket model operates as a simplified one-layer water balance model fed primarily by point-station meteorological records, which can fail to capture spatial heterogeneity and fine-scale atmospheric coupling. The Copernicus Climate Change Service (C3S) ERA5-Land reanalysis dataset provides high-resolution (0.1° × 0.1°), long-term (since 1950) global estimates of land-surface variables, offering a major opportunity to analyze these couplings. 
+
 
 
 
