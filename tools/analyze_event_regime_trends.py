@@ -218,14 +218,16 @@ def generate_chronological_overlay_plot(daily, droughts, floods):
             y_fit = intercept + slope * x_ord
             ax.plot(post_seg.index, y_fit, color=regime_colors["post_flood"], linewidth=2.0, linestyle="-")
 
-    # 3. Fit regression lines for non-drought runs
-    is_drought_div = np.zeros(len(daily), dtype=bool)
+    # 3. Fit regression lines for non-drought runs (divided by both droughts and floods)
+    is_drought_or_flood = np.zeros(len(daily), dtype=bool)
     for dr in divided_droughts:
-        is_drought_div = is_drought_div | ((daily.index >= dr["start"]) & (daily.index <= dr["end"]))
+        is_drought_or_flood = is_drought_or_flood | ((daily.index >= dr["start"]) & (daily.index <= dr["end"]))
+    for fl in floods:
+        is_drought_or_flood = is_drought_or_flood | ((daily.index >= pd.Timestamp(fl["start"])) & (daily.index <= pd.Timestamp(fl["end"])))
         
     non_drought_runs = []
     current_run = []
-    for dt, val in zip(daily.index, is_drought_div):
+    for dt, val in zip(daily.index, is_drought_or_flood):
         if not val:
             current_run.append(dt)
         else:
