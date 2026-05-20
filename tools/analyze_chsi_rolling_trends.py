@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Multi-scale Centered Rolling Trend Analysis for CHSI and its Normalized Components.
-Calculates centered rolling slopes over seasonal (90-day) and yearly (365-day) windows
-for CHSI, temperature, soil dryness, and potential evaporation.
-Saves two publication-quality figures, each divided into 3 chronological panels:
+Multi-scale Centered Rolling Trend and Normalized Components Analysis for CHSI.
+Calculates centered rolling slopes over seasonal (90-day) and yearly (365-day) windows,
+and generates three publication-quality figures:
 1. reports/figures/06_chsi_seasonal_slopes_comparison.png
 2. reports/figures/07_chsi_yearly_slopes_comparison.png
+3. reports/figures/08_chsi_normalized_components_comparison.png
 
 Author: Raul Alejandro Morales Rivera
 """
@@ -164,7 +164,7 @@ def main():
         
         ax.axhline(0, color="gray", linestyle=":", linewidth=0.8)
         ax.set_xlim(p_start, p_end)
-        ax.set_ylim(-5.2, 4.5)  # Covers absolute min (-4.7) and max (4.0) with margin
+        ax.set_ylim(-5.2, 4.5)
         ax.set_ylabel("Slope (yr$^{-1}$)")
         ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
         ax.grid(True, linestyle=":", alpha=0.5)
@@ -226,7 +226,7 @@ def main():
         
         ax.axhline(0, color="gray", linestyle=":", linewidth=0.8)
         ax.set_xlim(p_start, p_end)
-        ax.set_ylim(-0.85, 0.85)  # Covers absolute min (-0.77) and max (0.79) with margin
+        ax.set_ylim(-0.85, 0.85)
         ax.set_ylabel("Slope (yr$^{-1}$)")
         ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
         ax.grid(True, linestyle=":", alpha=0.5)
@@ -265,14 +265,77 @@ def main():
     plt.close(fig7)
     print("Figure 7 saved successfully.")
     
+    # =========================================================================
+    # FIGURE 8: NORMALIZED TIME SERIES (30-day average) - 3 stacked panels
+    # =========================================================================
+    print("Generating Figure 8 (Normalized Components, 3 panels)...")
+    fig8, axes8 = plt.subplots(3, 1, figsize=(11, 9.5), sharex=False)
+    
+    # Compute 30-day rolling averages of the normalized values
+    daily["chsi_smooth"] = daily["CHSI"].rolling(30, center=True).mean()
+    daily["t2m_smooth"] = daily["t2m_n"].rolling(30, center=True).mean()
+    daily["soil_smooth"] = daily["soil_dryness_n"].rolling(30, center=True).mean()
+    daily["pev_smooth"] = daily["pev_n"].rolling(30, center=True).mean()
+    
+    for idx, panel in enumerate(panels):
+        ax = axes8[idx]
+        p_start = pd.Timestamp(panel["start"])
+        p_end = pd.Timestamp(panel["end"])
+        
+        # Filter daily data for this panel
+        mask = (daily.index >= p_start) & (daily.index <= p_end)
+        df_panel = daily[mask]
+        
+        # Plot normalized values
+        ax.plot(df_panel.index, df_panel["t2m_smooth"], color=colors["t2m"], alpha=0.7, linewidth=1.1, label="Normalized Temperature ($T_{2m}$)")
+        ax.plot(df_panel.index, df_panel["soil_smooth"], color=colors["soil"], alpha=0.7, linewidth=1.1, label="Normalized Soil Dryness ($1 - swvl1$)")
+        ax.plot(df_panel.index, df_panel["pev_smooth"], color=colors["pev"], alpha=0.7, linewidth=1.1, label="Normalized PEV ($|pev|$)")
+        ax.plot(df_panel.index, df_panel["chsi_smooth"], color=colors["chsi"], alpha=0.95, linewidth=2.0, label="CHSI (Composite)")
+        
+        ax.set_xlim(p_start, p_end)
+        ax.set_ylim(-0.05, 1.05)
+        ax.set_ylabel("Normalized Value")
+        ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
+        ax.grid(True, linestyle=":", alpha=0.5)
+        sns.despine(ax=ax)
+        
+        # Overlay events that fall within this panel's range
+        for ev in events:
+            ev_start = pd.Timestamp(ev["start"])
+            ev_end = pd.Timestamp(ev["end"])
+            
+            # Check overlap
+            if ev_start <= p_end and ev_end >= p_start:
+                # Shade event region
+                ax.axvspan(ev_start, ev_end, color=ev["color"], alpha=0.15)
+                
+                # Compute visible midpoint for placing the text
+                visible_start = max(ev_start, p_start)
+                visible_end = min(ev_end, p_end)
+                mid_point = visible_start + (visible_end - visible_start) / 2
+                
+                # Put label just below the top boundary of the plot area using axes coordinates
+                ax.text(mid_point, 0.92, ev["name"].split(":")[0], color=ev["color"], 
+                        fontsize=8, fontweight="bold", ha="center", va="center", 
+                        transform=ax.get_xaxis_transform(),
+                        bbox=dict(facecolor='white', edgecolor='none', alpha=0.75, pad=1))
+        
+        # Add legend only to the first panel
+        if idx == 0:
+            handles, labels = ax.get_legend_handles_labels()
+            handles.extend(event_patches)
+            ax.legend(handles=handles, loc="upper right", ncol=3, frameon=True)
+            
+    fig8.suptitle("Reconstructed CHSI vs. Normalized Components (30-Day Centered Average)", fontsize=13, fontweight="bold", y=0.98)
+    fig8.tight_layout()
+    fig8.savefig("reports/figures/08_chsi_normalized_components_comparison.png")
+    plt.close(fig8)
+    print("Figure 8 saved successfully.")
+    
     # Print key statistics
     print("\n--- Key Statistics for Discussion ---")
     print(f"Max Seasonal CHSI Slope: {daily['chsi_slope_sea'].max():+.5f}/year")
     print(f"Max Yearly CHSI Slope: {daily['chsi_slope_yr'].max():+.5f}/year")
-    print(f"Most intense yearly drying periods (top 5 dates):")
-    top_yr = daily.sort_values(by="chsi_slope_yr", ascending=False).head(5)
-    for idx, row in top_yr.iterrows():
-        print(f"  Date: {idx.strftime('%Y-%m-%d')} | CHSI Slope: {row['chsi_slope_yr']:+.5f}/yr | Soil: {row['soil_slope_yr']:+.5f}/yr | T2m: {row['t2m_slope_yr']:+.5f}/yr | PEV: {row['pev_slope_yr']:+.5f}/yr")
 
 if __name__ == "__main__":
     main()

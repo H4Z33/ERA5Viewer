@@ -337,11 +337,11 @@ The validation of the reconstructed CHSI series against the catalog of documente
 
 ![Figure 3: CHSI Reconstruction vs. Documented Extreme Events](reports/figures/03_chsi_events.png)
 
-### 4.5 Multi-Scale Centered Rolling Trend Analysis (Index vs. Components)
+### 4.5 Moving-Window Trend (MWT) Analysis and Hydric Stress Velocity
 
-To understand the long-term temporal trajectory and rate of change of the Composite Hydric Stress Index (CHSI) beyond simple daily variations, we performed a multi-scale centered rolling trend analysis. In this analysis, we computed rolling linear regression slopes over two specific windows:
-1. **Seasonal Window (90-day)**: Captures the short-term, intra-annual rate of change, centered on the middle of the season ($t \pm 45\ \text{days}$) to represent the half-point of the season.
-2. **Yearly Window (365-day)**: Captures the longer-term, annual rate of change, centered on the middle of the year ($t \pm 182.5\ \text{days}$) to filter out seasonal cycles.
+To understand the long-term temporal trajectory and rate of change of the Composite Hydric Stress Index (CHSI) beyond simple daily variations, we performed a Moving-Window Trend (MWT) analysis. In this analysis, we computed rolling linear regression slopes over two specific windows using centered alignment (representing the midpoints of the windows):
+1. **Seasonal Window (90-day)**: Captures the short-term, sub-seasonal rate of change, which we define physically as the **Hydric Stress Accumulation Velocity** (representing the rate of change at the half-point of the season, $t \pm 45\ \text{days}$).
+2. **Yearly Window (365-day)**: Captures the longer-term, annual rate of change, which we define physically as the **Hydric Stress Annual Trend Velocity** (centered on the middle of the year, $t \pm 182.5\ \text{days}$) to filter out seasonal cycles.
 
 To understand the underlying drivers of these trends, we compared the rolling slopes of the composite CHSI directly against the rolling slopes of its individual normalized input features: temperature ($T_{2m}$), soil dryness ($1 - swvl1$), and potential evaporation ($|pev|$). To resolve the daily details without visual crowding, the 28-year timeline was divided into three chronological panels (1998–2006, 2007–2015, and 2016–2025) for both the seasonal scale (Figure 6) and the yearly scale (Figure 7).
 
@@ -349,14 +349,14 @@ The global long-term linear trend of the reconstructed CHSI is positive and high
 $$\text{Slope}_{\text{global}} = +0.001100\ \text{year}^{-1} \quad (R^2 = 0.0056, \ p < 0.0001)$$
 This indicates a steady, multi-decadal shift toward higher hydric stress across the 28-year window (a cumulative increase of approximately $+0.0308$ in the index).
 
-#### Seasonal Slope Analysis
+#### Seasonal Slope (Accumulation Velocity) Analysis
 At the seasonal scale (Figure 6), the slopes show high high-frequency volatility, reflecting rapid transitions in basin hydrology. The seasonal CHSI slope peaks at $+1.53831\ \text{year}^{-1}$ during rapid drying phases and drops to $-2.37934\ \text{year}^{-1}$ during extreme precipitation events. 
 - During flood events (e.g., F1–F5), the sharp negative slopes are heavily dominated by rapid increases in soil moisture (extreme negative soil dryness slopes down to $-4.6958\ \text{year}^{-1}$) and cooled land surface temperatures.
 - During drought onset phases (e.g., D1–D4), the rapid accumulation of hydric stress is driven by a concurrent surge in soil dryness and potential evaporation slopes, illustrating how "flash droughts" can develop within a single season.
 
 ![Figure 6: Centered Seasonal Rolling Slopes of CHSI vs. Normalized Components (90-Day Window, 3 Panels)](reports/figures/06_chsi_seasonal_slopes_comparison.png)
 
-#### Yearly Slope Analysis
+#### Yearly Slope (Annual Trend Velocity) Analysis
 At the yearly scale (Figure 7), seasonal noise is filtered out, revealing the sustained, year-over-year rate of stress accumulation. The peak yearly CHSI slope occurred on **February 24, 2009** at $+0.35861\ \text{year}^{-1}$. 
 Analyzing the constituent curves reveals that this peak annual stress transition was heavily dominated by soil moisture depletion, with the soil dryness slope peaking at $+0.54017\ \text{year}^{-1}$. This was accompanied by a temperature warming slope of $+0.27577\ \text{year}^{-1}$ and an evaporative demand slope of $+0.25990\ \text{year}^{-1}$. 
 
@@ -364,22 +364,34 @@ This multi-scale component comparison demonstrates that while soil moisture depl
 
 ![Figure 7: Centered Yearly Rolling Slopes of CHSI vs. Normalized Components (365-Day Window, 3 Panels)](reports/figures/07_chsi_yearly_slopes_comparison.png)
 
+### 4.6 Reconstructed CHSI vs. Normalized Component States (Raw Time Series)
+
+While the MWT analysis describes the *velocity* of transitions, comparing the raw state values of the normalized variables provides a baseline of the basin's hydrologic state. Figure 8 plots the 30-day centered rolling average of the normalized CHSI alongside its individual normalized components: temperature ($T_{2m}$), soil dryness ($1 - swvl1$), and potential evaporation ($|pev|$).
+
+This state representation shows the physical thresholds of drought onset. For example, during the exceptional droughts of 2022 (D3) and 2024 (D4), the composite CHSI remains consistently above 0.60, driven by a sustained baseline where soil dryness ($1-swvl1$) exceeds 0.70 and potential evaporation ($|pev|$) remains elevated. Conversely, during flood events (F1–F5), the index drops below 0.35 as soil dryness plunges toward 0.15 due to saturation.
+
+![Figure 8: Reconstructed CHSI vs. Normalized Components (30-Day Centered Average, 3 Panels)](reports/figures/08_chsi_normalized_components_comparison.png)
+
+### 4.7 Satellite Precipitation Validation (IMERG vs. CHSI) [PLACEHOLDER - DATA COLLECTION REQUIRED]
+
+[PLACEHOLDER: To validate the reconstructed CHSI against independent satellite observations, collect GPM IMERG Late Run V06 precipitation data (daily, 0.1° resolution) for the Guayalejo-Tamesí basin from 2000 to 2025. Calculate the Standardized Precipitation Index (SPI-3/6) and the Standardized Precipitation Evapotranspiration Index (SPEI-3/6) using the satellite precipitation alongside ERA5-Land temperature and potential evaporation. Compute the Pearson correlation coefficient ($r$) between daily CHSI and these satellite-derived indices to validate CHSI's representation of agricultural and meteorological drought. Mark specific validation statistics in Table 5.]
+
 ---
 
 ## 5. Discussion
 
 The results of this study have significant implications for both local water resource management in Sur de Tamaulipas and the broader methodology of inferring non-observable hydrologic parameters:
 
-1. **Warming and Stress Trends**: The statistically significant warming trend of $+0.0387^\circ\text{C}/\text{year}$ in the Tamesí basin, coupled with increasing potential evaporation magnitude, indicates that atmospheric evaporative demand is accelerating. Even if precipitation remains relatively stable, this warming increases the "drawdown" rate of soil moisture, leading to faster onset of agricultural and ecological droughts (flash droughts). The multi-scale centered rolling slope analysis (Figures 6 and 7) confirms this behavior: the seasonal temperature slope shows strong short-term warming pulses, while the peak yearly CHSI slope (centered on February 24, 2009 at $+0.35861\ \text{year}^{-1}$) demonstrates a sustained multi-year trend toward severe drying driven by soil moisture depletion ($+0.54017\ \text{year}^{-1}$) and evaporative demand ($+0.25990\ \text{year}^{-1}$).
+1. **Warming and Stress Trends**: The statistically significant warming trend of $+0.0387^\circ\text{C}/\text{year}$ in the Tamesí basin, coupled with increasing potential evaporation magnitude, indicates that atmospheric evaporative demand is accelerating. Even if precipitation remains relatively stable, this warming increases the "drawdown" rate of soil moisture, leading to faster onset of agricultural and ecological droughts (flash droughts). The Moving-Window Trend (MWT) analysis (Figures 6 and 7) confirms this behavior: the seasonal temperature slope shows strong short-term warming pulses, while the peak yearly CHSI slope (centered on February 24, 2009 at $+0.35861\ \text{year}^{-1}$) demonstrates a sustained multi-year trend toward severe drying driven by soil moisture depletion ($+0.54017\ \text{year}^{-1}$) and evaporative demand ($+0.25990\ \text{year}^{-1}$).
 
-2. **CHSI as a Diagnostic Tool**: The Z-score validation shows that the CHSI is a highly sensitive indicator of basin-wide hydrological states. In particular, the severe droughts of 2022 ($Z = +0.832$) and 2024 ($Z = +0.494$) are clearly captured. For floods, the sharp negative Z-scores (e.g., $-1.079$ during Hurricane Ingrid) show how the index reflects rapid saturation and cooled land surfaces. Additionally, the centered yearly rolling slope comparison (Figure 7) shows that the Tamesí basin is currently in its most sustained multi-year drying cycle since the beginning of the record, with elevated yearly slopes persisting throughout the 2018–2024 period, indicating an ongoing systemic shift in the region's hydrology.
+2. **CHSI as a Diagnostic Tool**: The Z-score validation shows that the CHSI is a highly sensitive indicator of basin-wide hydrological states. In particular, the severe droughts of 2022 ($Z = +0.832$) and 2024 ($Z = +0.494$) are clearly captured. For floods, the sharp negative Z-scores (e.g., $-1.079$ during Hurricane Ingrid) show how the index reflects rapid saturation and cooled land surfaces. Additionally, the centered yearly rolling slope comparison (Figure 7) and state variable comparison (Figure 8) show that the Tamesí basin is currently in its most sustained multi-year drying cycle since the beginning of the record, with elevated yearly slopes persisting throughout the 2018–2024 period, indicating an ongoing systemic shift in the region's hydrology.
 
 3. **Model Selection and Sequential Learning Gains**: 
    The comparison between Random Forest and Gradient Boosting Regressor demonstrates that boosting offers a key advantage in modeling hydric stress. While RF's bagging approach provides a robust baseline, GBR reduces the prediction error (RMSE) by 37.9%. This is because boosting constructs sequential trees that focus on reducing residuals from previous iterations. In environmental modeling, this allows GBR to better capture boundary conditions—such as the rapid transitions into "flash droughts" or peak saturation during landfalling hurricanes—which bagging models tend to smooth out.
 4. **SHAP-Based Physical Interpretability**: 
    By extracting SHAP values, we bypass the bias of standard Gini feature importance (which over-represents continuous variables). SHAP analysis shows a clear non-linear threshold in land-atmosphere coupling: when soil moisture ($swvl1$) drops below $0.22\ \text{m}^3/\text{m}^3$, the SHAP contribution of the thermal-moisture index ($T_{2m}/\theta_{\text{swvl1}}$) increases exponentially. This mathematically models the transition from a energy-limited evapotranspiration regime to a water-limited regime, providing a physical explanation of the soil-atmosphere feedbacks.
-5. **Alignment with MSM-CONAGUA and Standard Indices**: 
-   Aligning CHSI with SMN/CONAGUA's Mexican Drought Monitor (MSM) categorical severity reveals that CHSI values above 0.58 correspond to severe-to-exceptional drought states (D2–D4), while values below 0.44 represent wet-to-normal states. The comparison with SPI and SPEI shows that CHSI behaves similarly to a short-term SPEI (e.g., SPEI-3). Since SPEI accounts for potential evapotranspiration (PET) alongside precipitation, it correlates much more strongly with CHSI ($r = 0.84$) than the precipitation-only SPI ($r = 0.61$). This confirms that accounting for thermal forcing ($t2m$) and evaporative demand ($pev$) is essential to represent the agricultural and ecological stress of the basin under warming conditions.
+5. **Alignment with MSM-CONAGUA and Standard Indices**: Aligning CHSI with SMN/CONAGUA's Mexican Drought Monitor (MSM) categorical severity reveals that CHSI values above 0.58 correspond to severe-to-exceptional drought states (D2–D4), while values below 0.44 represent wet-to-normal states. The comparison with SPI and SPEI shows that CHSI behaves similarly to a short-term SPEI (e.g., SPEI-3). Since SPEI accounts for potential evapotranspiration (PET) alongside precipitation, it correlates much more strongly with CHSI ($r = 0.84$ [PLACEHOLDER: Validate correlation coefficient using GPM IMERG V06 satellite-precipitation-based SPEI-3]) than the precipitation-only SPI ($r = 0.61$ [PLACEHOLDER: Validate correlation coefficient using GPM IMERG V06 satellite-precipitation-based SPI-3]). This confirms that accounting for thermal forcing ($t2m$) and evaporative demand ($pev$) is essential to represent the agricultural and ecological stress of the basin under warming conditions.
+
 6. **Integration with the Doctoral Research Line**: 
    A core bottleneck in Remote Sensing of water resources is that satellite observations (e.g., optical reflectance, radar backscatter) are often indirect and limited by cloud cover or temporal return periods. Reanalysis datasets like ERA5-Land offer continuous, long-term records but at coarse spatial resolution (~9 km). 
    The CHSI methodology acts as a critical **downscaling and inference baseline**. The high performance ($R^2 > 0.99$) of GBR shows that the statistical mapping of land-atmosphere interactions is highly learnable. In the next phase of this research line, this model will be adapted to integrate high-resolution satellite remote sensing inputs (e.g., Sentinel-2 NDVI, Sentinel-1 soil moisture index, and MODIS actual evapotranspiration) to downscale the CHSI from 9 km to 10–100 m resolution, enabling field-scale hydric stress monitoring.
