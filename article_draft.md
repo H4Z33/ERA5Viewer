@@ -716,7 +716,9 @@ This state representation shows the physical thresholds of drought onset. For ex
 
 ### 4.8 Hydrological Regime and Event-Lag Trend Analysis
 
-To assess the behavior of the Composite Hydric Stress Index (CHSI) under different physical contexts, we analyzed its linear trends across distinct hydrological regimes: inside documented droughts (D1–D4) versus normal/wet baseline periods (outside droughts). Additionally, we examined how the rate of change of hydrological stress behaves before and after the onset of major extreme wet events (floods and hurricanes F1–F5). To resolve these trend behaviors in their historical context, we overlaid the fitted linear regression lines as localized segments directly onto the continuous 1998–2025 CHSI time series (Figure 9), similar to the timeline format in Section 4.4. Panel A displays the regression lines fit separately for each documented drought period (D1–D4) and non-drought period. Panel B overlays the 2-year lead/lag regression lines fit before and after each of the 5 major flood/hurricane events (F1–F5) to show the local build-up and recovery trends.
+To assess the behavior of the Composite Hydric Stress Index (CHSI) under different physical contexts, we analyzed its linear trends across distinct hydrological regimes: inside documented droughts (D1–D4) versus normal/wet baseline periods (outside droughts). Additionally, we conducted a Superposed Epoch Analysis (SEA) to examine how the rate of change of hydrological stress behaves before and after the onset of major extreme wet events (floods and hurricanes F1–F5). In this analysis, we aligned the 5 major flood/hurricane events at $t = 0$ (onset date) and fitted aggregated linear regression lines over 1-year, 2-year, and 5-year windows prior to and following the events (Figure 9). 
+
+To resolve these trend behaviors in their chronological context, we also overlaid the fitted linear regression lines as localized segments directly onto the continuous 1998–2025 CHSI time series (Figure 10), similar to the timeline format in Section 4.4. Panel A displays the regression lines fit separately for each documented drought period (D1–D4) and non-drought period. Panel B overlays the 2-year lead/lag regression lines fit before and after each of the 5 major flood/hurricane events (F1–F5) to show the local build-up and recovery trends.
 
 The regression results reveal key physical patterns in the basin's hydrologic dynamics (Table 5):
 - **Drought vs. Baseline**: Inside documented droughts, hydric stress accumulates at a rate of $+0.005713\ \text{year}^{-1}$ ($p < 0.0001$), which is more than double the background rate of change observed outside droughts ($+0.002712\ \text{year}^{-1}, \ p < 0.0001$). This confirms that stress builds up exponentially during dry cycles, but also reveals a persistent, gradual long-term drying baseline even during non-drought periods.
@@ -736,7 +738,9 @@ The regression results reveal key physical patterns in the basin's hydrologic dy
 
 *Table 5: Regression trend statistics of CHSI across different environmental regimes and lead/lag windows around extreme events.*
 
-![Figure 9: CHSI Event Regime Regression Slopes and Superposed Epoch Analysis (SEA) Aligned Around Floods](reports/figures/09_chsi_event_regime_trends.png)
+![Figure 9: CHSI Event Regime Regression Slopes and Superposed Epoch Analysis (SEA) Aligned Around Floods](reports/figures/09_chsi_event_regime_sea_composite.png)
+
+![Figure 10: Chronological Timeline Overlays of CHSI Regression Segments](reports/figures/10_chsi_event_regime_chronological_overlay.png)
 
 ---
 
