@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """
-Hydrological Regime and Event-Lag Trend Analysis for CHSI.
-Computes linear trends inside/outside droughts and in 1y, 2y, and 5y windows before/after floods.
-Generates:
-- reports/figures/09_chsi_event_regime_sea_composite.png (Bar chart + SEA composite plot)
-- reports/figures/10_chsi_event_regime_chronological_overlay.png (Timeline overlays plot)
+Figure 10: Single-panel chronological timeline overlaying regression segments.
+Outputs: reports/figures/10_chsi_event_regime_chronological_overlay.png
 
 Author: Raul Alejandro Morales Rivera
 """
@@ -52,9 +49,7 @@ def load_data():
     # Conversions
     if "t2m" in df.columns:
         df["t2m"] = df["t2m"] - 273.15
-    
-    df.dropna(inplace=True)
-    return df
+    return df.dropna()
 
 def calculate_chsi(df):
     scaler = MinMaxScaler()
@@ -68,60 +63,26 @@ def calculate_chsi(df):
     daily["CHSI"] = (daily["t2m_n"] + daily["soil_dryness_n"] + daily["pev_n"]) / 3.0
     return daily
 
-def generate_sea_composite_plot(results, slope_dr, slope_ndr, lags, composite_mean, composite_sem):
-    """Generates Figure 9: Slope comparison bar chart + Superposed Epoch Analysis (SEA) composite timeline."""
-    print("Generating SEA Composite plot (Figure 9)...")
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5.5))
+def main():
+    print("Loading data...")
+    df = load_data()
+    daily = calculate_chsi(df)
     
-    # Panel A: Slopes comparison bar plot
-    labels = ["Inside\nDrought", "Outside\nDrought", "1y Pre", "1y Post", "2y Pre", "2y Post", "5y Pre", "5y Post"]
-    slopes = [
-        slope_dr, slope_ndr,
-        results[0]["pre_slope"], results[0]["post_slope"],
-        results[1]["pre_slope"], results[1]["post_slope"],
-        results[2]["pre_slope"], results[2]["post_slope"]
+    droughts = [
+        {"name": "D1", "start": "1998-01-01", "end": "2003-12-31"},
+        {"name": "D2", "start": "2011-01-01", "end": "2012-06-30"},
+        {"name": "D3", "start": "2022-03-01", "end": "2022-09-30"},
+        {"name": "D4", "start": "2024-03-01", "end": "2024-09-30"},
     ]
     
-    bar_colors = ["#dc2626" if s >= 0 else "#2563eb" for s in slopes]
+    floods = [
+        {"name": "F1: Hurricane Keith", "start": "2000-10-01", "end": "2000-10-15"},
+        {"name": "F2: 2007 Flooding", "start": "2007-07-01", "end": "2007-07-31"},
+        {"name": "F3: Hurricane Alex", "start": "2010-06-15", "end": "2010-07-15"},
+        {"name": "F4: Hurricane Ingrid", "start": "2013-09-15", "end": "2013-10-15"},
+        {"name": "F5: 2017 Flooding", "start": "2017-09-20", "end": "2017-10-10"},
+    ]
     
-    bars = ax1.bar(labels, slopes, color=bar_colors, edgecolor="black", linewidth=0.6, alpha=0.85)
-    ax1.axhline(0, color="black", linestyle="-", linewidth=0.8)
-    ax1.set_ylabel("Linear Trend Slope (yr$^{-1}$)", fontsize=12)
-    ax1.set_title("A) Regression Slopes by Regime and Lag", fontweight="bold", fontsize=11, loc="left")
-    ax1.grid(True, axis="y", linestyle=":", alpha=0.5)
-    
-    # Add values on top of bars
-    for bar in bars:
-        height = bar.get_height()
-        va_dir = "bottom" if height >= 0 else "top"
-        offset = 0.002 if height >= 0 else -0.002
-        ax1.text(bar.get_x() + bar.get_width()/2., height + offset, f"{height:+.4f}",
-                 ha="center", va=va_dir, fontsize=9, fontweight="semibold")
-                 
-    sns.despine(ax=ax1)
-    
-    # Panel B: Composite Timeline (Superposed Epoch Analysis)
-    x_years = lags / 365.25
-    ax2.plot(x_years, composite_mean, color="#1e3a8a", linewidth=2.0, label="Composite Mean CHSI")
-    ax2.fill_between(x_years, composite_mean - composite_sem, composite_mean + composite_sem, 
-                     color="#1e3a8a", alpha=0.15, label=r"$\pm$ 1 SEM")
-    
-    ax2.axvline(0, color="#10b981", linestyle="--", linewidth=1.5, label="Hurricane/Flood Onset ($t=0$)")
-    ax2.set_xlim(-5.0, 5.0)
-    ax2.set_xlabel("Relative Time from Event (Years)", fontsize=12)
-    ax2.set_ylabel("CHSI (Composite State)", fontsize=12)
-    ax2.set_title("B) CHSI Trajectory Aligned Around Floods", fontweight="bold", fontsize=11, loc="left")
-    ax2.grid(True, linestyle=":", alpha=0.5)
-    ax2.legend(loc="upper right", frameon=True)
-    sns.despine(ax=ax2)
-    
-    plt.tight_layout()
-    fig.savefig("reports/figures/09_chsi_event_regime_sea_composite.png")
-    plt.close(fig)
-    print("SEA Composite plot generated successfully as reports/figures/09_chsi_event_regime_sea_composite.png.")
-
-def generate_chronological_overlay_plot(daily, droughts, floods):
-    """Generates Figure 10: Single-panel chronological timeline overlaying regression segments."""
     print("Generating Chronological Overlay plot (Figure 10)...")
     fig, ax = plt.subplots(figsize=(12, 6.5))
     
@@ -265,115 +226,7 @@ def generate_chronological_overlay_plot(daily, droughts, floods):
     plt.tight_layout()
     fig.savefig("reports/figures/10_chsi_event_regime_chronological_overlay.png")
     plt.close(fig)
-    print("Chronological Overlay plot generated successfully as reports/figures/10_chsi_event_regime_chronological_overlay.png.")
-
-def main():
-    print("Loading data...")
-    df = load_data()
-    daily = calculate_chsi(df)
-    
-    # Define events
-    droughts = [
-        {"name": "D1", "start": "1998-01-01", "end": "2003-12-31"},
-        {"name": "D2", "start": "2011-01-01", "end": "2012-06-30"},
-        {"name": "D3", "start": "2022-03-01", "end": "2022-09-30"},
-        {"name": "D4", "start": "2024-03-01", "end": "2024-09-30"},
-    ]
-    
-    floods = [
-        {"name": "F1: Hurricane Keith", "start": "2000-10-01", "end": "2000-10-15"},
-        {"name": "F2: 2007 Flooding", "start": "2007-07-01", "end": "2007-07-31"},
-        {"name": "F3: Hurricane Alex", "start": "2010-06-15", "end": "2010-07-15"},
-        {"name": "F4: Hurricane Ingrid", "start": "2013-09-15", "end": "2013-10-15"},
-        {"name": "F5: 2017 Flooding", "start": "2017-09-20", "end": "2017-10-10"},
-    ]
-    
-    # 1. Inside vs Outside Drought (for stats only, using original un-divided drought mask)
-    is_drought = np.zeros(len(daily), dtype=bool)
-    for dr in droughts:
-        start_dt = pd.Timestamp(dr["start"])
-        end_dt = pd.Timestamp(dr["end"])
-        is_drought = is_drought | ((daily.index >= start_dt) & (daily.index <= end_dt))
-        
-    is_drought_series = pd.Series(is_drought, index=daily.index)
-    daily_drought = daily[is_drought_series]
-    daily_non_drought = daily[~is_drought_series]
-    
-    # Linear trend inside drought
-    x_dr = np.arange(len(daily_drought)) / 365.25
-    slope_dr, intercept_dr, r_dr, p_dr, _ = stats.linregress(x_dr, daily_drought["CHSI"].values)
-    
-    # Linear trend outside drought
-    x_ndr = np.arange(len(daily_non_drought)) / 365.25
-    slope_ndr, intercept_ndr, r_ndr, p_ndr, _ = stats.linregress(x_ndr, daily_non_drought["CHSI"].values)
-    
-    print("\n--- REGIME TREND STATS ---")
-    print(f"Inside Drought:  Slope = {slope_dr:+.6f}/yr, R^2 = {r_dr**2:.4f}, p = {p_dr:.4e}")
-    print(f"Outside Drought: Slope = {slope_ndr:+.6f}/yr, R^2 = {r_ndr**2:.4f}, p = {p_ndr:.4e}")
-    
-    # 2. Before/After Flood analysis
-    windows = [1, 2, 5]  # years
-    results = []
-    
-    # Prepare composite alignment for SEA
-    max_lag_days = 5 * 365
-    lags = np.arange(-max_lag_days, max_lag_days + 1)
-    composite_matrix = np.full((len(floods), len(lags)), np.nan)
-    
-    for idx_f, fl in enumerate(floods):
-        t0 = pd.Timestamp(fl["start"])
-        te = pd.Timestamp(fl["end"])
-        
-        event_slice = daily.loc[t0 - pd.Timedelta(days=max_lag_days) : t0 + pd.Timedelta(days=max_lag_days)]
-        for idx_l, lag in enumerate(lags):
-            tgt_dt = t0 + pd.Timedelta(days=lag)
-            if tgt_dt in event_slice.index:
-                composite_matrix[idx_f, idx_l] = event_slice.loc[tgt_dt, "CHSI"]
-                
-    composite_mean = np.nanmean(composite_matrix, axis=0)
-    composite_sem = np.nanstd(composite_matrix, axis=0) / np.sqrt(len(floods))
-    
-    for w in windows:
-        pre_x, pre_y = [], []
-        post_x, post_y = [], []
-        
-        for fl in floods:
-            t0 = pd.Timestamp(fl["start"])
-            te = pd.Timestamp(fl["end"])
-            
-            pre_slice = daily.loc[t0 - pd.Timedelta(days=int(w * 365.25)) : t0]
-            if not pre_slice.empty:
-                rel_x = (pre_slice.index - t0).total_seconds() / (365.25 * 24 * 3600)
-                pre_x.extend(rel_x)
-                pre_y.extend(pre_slice["CHSI"].values)
-                
-            post_slice = daily.loc[te : te + pd.Timedelta(days=int(w * 365.25))]
-            if not post_slice.empty:
-                rel_x = (post_slice.index - te).total_seconds() / (365.25 * 24 * 3600)
-                post_x.extend(rel_x)
-                post_y.extend(post_slice["CHSI"].values)
-                
-        pre_x = np.array(pre_x)
-        pre_y = np.array(pre_y)
-        slope_pre, int_pre, r_pre, p_pre, _ = stats.linregress(pre_x, pre_y)
-        
-        post_x = np.array(post_x)
-        post_y = np.array(post_y)
-        slope_post, int_post, r_post, p_post, _ = stats.linregress(post_x, post_y)
-        
-        results.append({
-            "window": w,
-            "pre_slope": slope_pre, "pre_r2": r_pre**2, "pre_p": p_pre,
-            "post_slope": slope_post, "post_r2": r_post**2, "post_p": p_post
-        })
-        
-        print(f"\n{w}-Year Window around Floods:")
-        print(f"  Pre-Event:  Slope = {slope_pre:+.6f}/yr, R^2 = {r_pre**2:.4f}, p = {p_pre:.4e}")
-        print(f"  Post-Event: Slope = {slope_post:+.6f}/yr, R^2 = {r_post**2:.4f}, p = {p_post:.4e}")
-
-    # Generate both plots
-    generate_sea_composite_plot(results, slope_dr, slope_ndr, lags, composite_mean, composite_sem)
-    generate_chronological_overlay_plot(daily, droughts, floods)
+    print("Figure 10 generated successfully.")
 
 if __name__ == "__main__":
     main()
