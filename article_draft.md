@@ -343,7 +343,7 @@ To understand the long-term temporal trajectory and rate of change of the Compos
 1. **Seasonal Window (90-day)**: Captures the short-term, intra-annual rate of change, centered on the middle of the season ($t \pm 45\ \text{days}$) to represent the half-point of the season.
 2. **Yearly Window (365-day)**: Captures the longer-term, annual rate of change, centered on the middle of the year ($t \pm 182.5\ \text{days}$) to filter out seasonal cycles.
 
-To understand the underlying drivers of these trends, we compared the rolling slopes of the composite CHSI directly against the rolling slopes of its individual normalized input features: temperature ($T_{2m}$), soil dryness ($1 - swvl1$), and potential evaporation ($|pev|$). To resolve the high-frequency temporal detail of these records across the 28-year history, the timeline was divided into four overlapping 10-year panels (1998–2007, 2004–2013, 2010–2019, and 2016–2025) for both the seasonal scale (Figure 6) and the yearly scale (Figure 7).
+To understand the underlying drivers of these trends, we compared the rolling slopes of the composite CHSI directly against the rolling slopes of its individual normalized input features: temperature ($T_{2m}$), soil dryness ($1 - swvl1$), and potential evaporation ($|pev|$). To resolve the daily details without visual crowding, the 28-year timeline was divided into three chronological panels (1998–2006, 2007–2015, and 2016–2025) for both the seasonal scale (Figure 6) and the yearly scale (Figure 7).
 
 The global long-term linear trend of the reconstructed CHSI is positive and highly statistically significant:
 $$\text{Slope}_{\text{global}} = +0.001100\ \text{year}^{-1} \quad (R^2 = 0.0056, \ p < 0.0001)$$
@@ -351,10 +351,10 @@ This indicates a steady, multi-decadal shift toward higher hydric stress across 
 
 #### Seasonal Slope Analysis
 At the seasonal scale (Figure 6), the slopes show high high-frequency volatility, reflecting rapid transitions in basin hydrology. The seasonal CHSI slope peaks at $+1.53831\ \text{year}^{-1}$ during rapid drying phases and drops to $-2.37934\ \text{year}^{-1}$ during extreme precipitation events. 
-- During flood events (e.g., F1–F5), the sharp negative slopes are heavily dominated by rapid increases in soil moisture (extreme negative soil dryness slopes) and cooled land surface temperatures.
+- During flood events (e.g., F1–F5), the sharp negative slopes are heavily dominated by rapid increases in soil moisture (extreme negative soil dryness slopes down to $-4.6958\ \text{year}^{-1}$) and cooled land surface temperatures.
 - During drought onset phases (e.g., D1–D4), the rapid accumulation of hydric stress is driven by a concurrent surge in soil dryness and potential evaporation slopes, illustrating how "flash droughts" can develop within a single season.
 
-![Figure 6: Centered Seasonal Rolling Slopes of CHSI vs. Normalized Components (90-Day Window, 4 Panels)](reports/figures/06_chsi_seasonal_slopes_comparison.png)
+![Figure 6: Centered Seasonal Rolling Slopes of CHSI vs. Normalized Components (90-Day Window, 3 Panels)](reports/figures/06_chsi_seasonal_slopes_comparison.png)
 
 #### Yearly Slope Analysis
 At the yearly scale (Figure 7), seasonal noise is filtered out, revealing the sustained, year-over-year rate of stress accumulation. The peak yearly CHSI slope occurred on **February 24, 2009** at $+0.35861\ \text{year}^{-1}$. 
@@ -362,7 +362,7 @@ Analyzing the constituent curves reveals that this peak annual stress transition
 
 This multi-scale component comparison demonstrates that while soil moisture depletion acts as the primary driver of rapid stress acceleration during the initial stages of a drought cycle, sustained warming and high potential evaporation maintain the elevated baseline stress over multi-year periods.
 
-![Figure 7: Centered Yearly Rolling Slopes of CHSI vs. Normalized Components (365-Day Window, 4 Panels)](reports/figures/07_chsi_yearly_slopes_comparison.png)
+![Figure 7: Centered Yearly Rolling Slopes of CHSI vs. Normalized Components (365-Day Window, 3 Panels)](reports/figures/07_chsi_yearly_slopes_comparison.png)
 
 ---
 

@@ -3,7 +3,7 @@
 Multi-scale Centered Rolling Trend Analysis for CHSI and its Normalized Components.
 Calculates centered rolling slopes over seasonal (90-day) and yearly (365-day) windows
 for CHSI, temperature, soil dryness, and potential evaporation.
-Saves two publication-quality figures, each divided into 4 chronological panels:
+Saves two publication-quality figures, each divided into 3 chronological panels:
 1. reports/figures/06_chsi_seasonal_slopes_comparison.png
 2. reports/figures/07_chsi_yearly_slopes_comparison.png
 
@@ -110,15 +110,15 @@ def main():
     
     # Documented extreme events to overlay on figures
     events = [
-        {"name": "D1: 1998-03 Drought", "start": "1998-01-01", "end": "2003-12-31", "color": "#ef4444", "y_sea": 1.5, "y_yr": 0.35},
-        {"name": "F1: Hurricane Keith", "start": "2000-10-01", "end": "2000-10-15", "color": "#10b981", "y_sea": -2.0, "y_yr": -0.35},
-        {"name": "F2: 2007 Flooding", "start": "2007-07-01", "end": "2007-07-31", "color": "#10b981", "y_sea": -2.0, "y_yr": -0.35},
-        {"name": "F3: Hurricane Alex", "start": "2010-06-15", "end": "2010-07-15", "color": "#10b981", "y_sea": -1.4, "y_yr": -0.28},
-        {"name": "D2: 2011-12 Drought", "start": "2011-01-01", "end": "2012-06-30", "color": "#ef4444", "y_sea": 1.5, "y_yr": 0.35},
-        {"name": "F4: Hurricane Ingrid", "start": "2013-09-15", "end": "2013-10-15", "color": "#10b981", "y_sea": -2.0, "y_yr": -0.35},
-        {"name": "F5: 2017 Flooding", "start": "2017-09-20", "end": "2017-10-10", "color": "#10b981", "y_sea": -1.4, "y_yr": -0.28},
-        {"name": "D3: 2022 Drought", "start": "2022-03-01", "end": "2022-09-30", "color": "#ef4444", "y_sea": 1.5, "y_yr": 0.35},
-        {"name": "D4: 2024 Drought", "start": "2024-03-01", "end": "2024-09-30", "color": "#ef4444", "y_sea": 1.1, "y_yr": 0.28},
+        {"name": "D1: 1998-03 Drought", "start": "1998-01-01", "end": "2003-12-31", "color": "#ef4444"},
+        {"name": "F1: Hurricane Keith", "start": "2000-10-01", "end": "2000-10-15", "color": "#10b981"},
+        {"name": "F2: 2007 Flooding", "start": "2007-07-01", "end": "2007-07-31", "color": "#10b981"},
+        {"name": "F3: Hurricane Alex", "start": "2010-06-15", "end": "2010-07-15", "color": "#10b981"},
+        {"name": "D2: 2011-12 Drought", "start": "2011-01-01", "end": "2012-06-30", "color": "#ef4444"},
+        {"name": "F4: Hurricane Ingrid", "start": "2013-09-15", "end": "2013-10-15", "color": "#10b981"},
+        {"name": "F5: 2017 Flooding", "start": "2017-09-20", "end": "2017-10-10", "color": "#10b981"},
+        {"name": "D3: 2022 Drought", "start": "2022-03-01", "end": "2022-09-30", "color": "#ef4444"},
+        {"name": "D4: 2024 Drought", "start": "2024-03-01", "end": "2024-09-30", "color": "#ef4444"},
     ]
     
     event_patches = [
@@ -126,26 +126,26 @@ def main():
         Patch(facecolor="#10b981", alpha=0.15, label="Documented Flood/Hurricane"),
     ]
     
-    # 4 chronological panels (overlapping ~10 years each)
+    # 3 chronological panels exactly matching user ranges
     panels = [
-        {"start": "1998-01-01", "end": "2007-12-31", "title": "1) 1998–2007 Decade"},
-        {"start": "2004-01-01", "end": "2013-12-31", "title": "2) 2004–2013 Decade"},
-        {"start": "2010-01-01", "end": "2019-12-31", "title": "3) 2010–2019 Decade"},
-        {"start": "2016-01-01", "end": "2025-12-31", "title": "4) 2016–2025 Decade"},
+        {"start": "1998-01-01", "end": "2006-12-31", "title": "1) 1998–2006"},
+        {"start": "2007-01-01", "end": "2015-12-31", "title": "2) 2007–2015"},
+        {"start": "2016-01-01", "end": "2025-12-31", "title": "3) 2016–2025"},
     ]
     
+    # Highly distinguishable color scheme (Navy, Crimson Red, Forest Green, Vibrant Purple)
     colors = {
-        "chsi": "#1e3a8a",        # Navy blue (non-black) for CHSI
-        "t2m": "#ef4444",         # Red for Temperature
-        "soil": "#b45309",        # Earthy Brown for Soil Dryness
-        "pev": "#f97316"          # Orange for Potential Evaporation
+        "chsi": "#1e3a8a",        # Navy Blue
+        "t2m": "#dc2626",         # Crimson Red
+        "soil": "#16a34a",        # Forest Green
+        "pev": "#7c3aed"          # Vibrant Purple
     }
     
     # =========================================================================
-    # FIGURE 6: SEASONAL SLOPES (90-day) - 4 stacked panels
+    # FIGURE 6: SEASONAL SLOPES (90-day) - 3 stacked panels
     # =========================================================================
-    print("Generating Figure 6 (Seasonal Slopes, 4 panels)...")
-    fig6, axes6 = plt.subplots(4, 1, figsize=(11, 11), sharex=False)
+    print("Generating Figure 6 (Seasonal Slopes, 3 panels)...")
+    fig6, axes6 = plt.subplots(3, 1, figsize=(11, 9.5), sharex=False)
     
     for idx, panel in enumerate(panels):
         ax = axes6[idx]
@@ -157,14 +157,14 @@ def main():
         df_panel = daily[mask]
         
         # Plot slopes
-        ax.plot(df_panel.index, df_panel["t2m_slope_sea"], color=colors["t2m"], alpha=0.6, linewidth=0.9, label="Temperature Slope ($T_{2m}$)")
-        ax.plot(df_panel.index, df_panel["soil_slope_sea"], color=colors["soil"], alpha=0.6, linewidth=0.9, label="Soil Dryness Slope ($1 - swvl1$)")
-        ax.plot(df_panel.index, df_panel["pev_slope_sea"], color=colors["pev"], alpha=0.6, linewidth=0.9, label="PEV Slope ($|pev|$)")
+        ax.plot(df_panel.index, df_panel["t2m_slope_sea"], color=colors["t2m"], alpha=0.7, linewidth=0.9, label="Temperature Slope ($T_{2m}$)")
+        ax.plot(df_panel.index, df_panel["soil_slope_sea"], color=colors["soil"], alpha=0.7, linewidth=0.9, label="Soil Dryness Slope ($1 - swvl1$)")
+        ax.plot(df_panel.index, df_panel["pev_slope_sea"], color=colors["pev"], alpha=0.7, linewidth=0.9, label="PEV Slope ($|pev|$)")
         ax.plot(df_panel.index, df_panel["chsi_slope_sea"], color=colors["chsi"], alpha=0.95, linewidth=1.8, label="CHSI Slope (Composite)")
         
         ax.axhline(0, color="gray", linestyle=":", linewidth=0.8)
         ax.set_xlim(p_start, p_end)
-        ax.set_ylim(-2.6, 2.1)
+        ax.set_ylim(-5.2, 4.5)  # Covers absolute min (-4.7) and max (4.0) with margin
         ax.set_ylabel("Slope (yr$^{-1}$)")
         ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
         ax.grid(True, linestyle=":", alpha=0.5)
@@ -185,8 +185,11 @@ def main():
                 visible_end = min(ev_end, p_end)
                 mid_point = visible_start + (visible_end - visible_start) / 2
                 
-                ax.text(mid_point, ev["y_sea"], ev["name"].split(":")[0], color=ev["color"], 
-                         fontsize=8, fontweight="bold", ha="center", va="center")
+                # Put label just below the top boundary of the plot area using axes coordinates
+                ax.text(mid_point, 0.92, ev["name"].split(":")[0], color=ev["color"], 
+                        fontsize=8, fontweight="bold", ha="center", va="center", 
+                        transform=ax.get_xaxis_transform(),
+                        bbox=dict(facecolor='white', edgecolor='none', alpha=0.75, pad=1))
         
         # Add legend only to the first panel to avoid clutter
         if idx == 0:
@@ -201,10 +204,10 @@ def main():
     print("Figure 6 saved successfully.")
     
     # =========================================================================
-    # FIGURE 7: YEARLY SLOPES (365-day) - 4 stacked panels
+    # FIGURE 7: YEARLY SLOPES (365-day) - 3 stacked panels
     # =========================================================================
-    print("Generating Figure 7 (Yearly Slopes, 4 panels)...")
-    fig7, axes7 = plt.subplots(4, 1, figsize=(11, 11), sharex=False)
+    print("Generating Figure 7 (Yearly Slopes, 3 panels)...")
+    fig7, axes7 = plt.subplots(3, 1, figsize=(11, 9.5), sharex=False)
     
     for idx, panel in enumerate(panels):
         ax = axes7[idx]
@@ -216,14 +219,14 @@ def main():
         df_panel = daily[mask]
         
         # Plot slopes
-        ax.plot(df_panel.index, df_panel["t2m_slope_yr"], color=colors["t2m"], alpha=0.7, linewidth=1.1, label="Temperature Slope ($T_{2m}$)")
-        ax.plot(df_panel.index, df_panel["soil_slope_yr"], color=colors["soil"], alpha=0.7, linewidth=1.1, label="Soil Dryness Slope ($1 - swvl1$)")
-        ax.plot(df_panel.index, df_panel["pev_slope_yr"], color=colors["pev"], alpha=0.7, linewidth=1.1, label="PEV Slope ($|pev|$)")
+        ax.plot(df_panel.index, df_panel["t2m_slope_yr"], color=colors["t2m"], alpha=0.75, linewidth=1.1, label="Temperature Slope ($T_{2m}$)")
+        ax.plot(df_panel.index, df_panel["soil_slope_yr"], color=colors["soil"], alpha=0.75, linewidth=1.1, label="Soil Dryness Slope ($1 - swvl1$)")
+        ax.plot(df_panel.index, df_panel["pev_slope_yr"], color=colors["pev"], alpha=0.75, linewidth=1.1, label="PEV Slope ($|pev|$)")
         ax.plot(df_panel.index, df_panel["chsi_slope_yr"], color=colors["chsi"], alpha=0.95, linewidth=2.0, label="CHSI Slope (Composite)")
         
         ax.axhline(0, color="gray", linestyle=":", linewidth=0.8)
         ax.set_xlim(p_start, p_end)
-        ax.set_ylim(-0.55, 0.48)
+        ax.set_ylim(-0.85, 0.85)  # Covers absolute min (-0.77) and max (0.79) with margin
         ax.set_ylabel("Slope (yr$^{-1}$)")
         ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
         ax.grid(True, linestyle=":", alpha=0.5)
@@ -244,8 +247,11 @@ def main():
                 visible_end = min(ev_end, p_end)
                 mid_point = visible_start + (visible_end - visible_start) / 2
                 
-                ax.text(mid_point, ev["y_yr"], ev["name"].split(":")[0], color=ev["color"], 
-                         fontsize=8, fontweight="bold", ha="center", va="center")
+                # Put label just below the top boundary of the plot area using axes coordinates
+                ax.text(mid_point, 0.92, ev["name"].split(":")[0], color=ev["color"], 
+                        fontsize=8, fontweight="bold", ha="center", va="center", 
+                        transform=ax.get_xaxis_transform(),
+                        bbox=dict(facecolor='white', edgecolor='none', alpha=0.75, pad=1))
         
         # Add legend only to the first panel
         if idx == 0:
