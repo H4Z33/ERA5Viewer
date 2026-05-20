@@ -3,8 +3,9 @@
 Multi-scale Centered Rolling Trend Analysis for CHSI and its Normalized Components.
 Calculates centered rolling slopes over seasonal (90-day) and yearly (365-day) windows
 for CHSI, temperature, soil dryness, and potential evaporation.
-Saves a publication-quality figure:
-- reports/figures/06_chsi_rolling_trends_centered.png
+Saves two publication-quality figures, each divided into 4 chronological panels:
+1. reports/figures/06_chsi_seasonal_slopes_comparison.png
+2. reports/figures/07_chsi_yearly_slopes_comparison.png
 
 Author: Raul Alejandro Morales Rivera
 """
@@ -109,15 +110,15 @@ def main():
     
     # Documented extreme events to overlay on figures
     events = [
-        {"name": "D1: 1998-03 Drought", "start": "1998-01-01", "end": "2003-12-31", "color": "#ef4444", "y_sea": 1.55, "y_yr": 0.38},
+        {"name": "D1: 1998-03 Drought", "start": "1998-01-01", "end": "2003-12-31", "color": "#ef4444", "y_sea": 1.5, "y_yr": 0.35},
         {"name": "F1: Hurricane Keith", "start": "2000-10-01", "end": "2000-10-15", "color": "#10b981", "y_sea": -2.0, "y_yr": -0.35},
         {"name": "F2: 2007 Flooding", "start": "2007-07-01", "end": "2007-07-31", "color": "#10b981", "y_sea": -2.0, "y_yr": -0.35},
         {"name": "F3: Hurricane Alex", "start": "2010-06-15", "end": "2010-07-15", "color": "#10b981", "y_sea": -1.4, "y_yr": -0.28},
-        {"name": "D2: 2011-12 Drought", "start": "2011-01-01", "end": "2012-06-30", "color": "#ef4444", "y_sea": 1.55, "y_yr": 0.38},
+        {"name": "D2: 2011-12 Drought", "start": "2011-01-01", "end": "2012-06-30", "color": "#ef4444", "y_sea": 1.5, "y_yr": 0.35},
         {"name": "F4: Hurricane Ingrid", "start": "2013-09-15", "end": "2013-10-15", "color": "#10b981", "y_sea": -2.0, "y_yr": -0.35},
         {"name": "F5: 2017 Flooding", "start": "2017-09-20", "end": "2017-10-10", "color": "#10b981", "y_sea": -1.4, "y_yr": -0.28},
-        {"name": "D3: 2022 Drought", "start": "2022-03-01", "end": "2022-09-30", "color": "#ef4444", "y_sea": 1.55, "y_yr": 0.38},
-        {"name": "D4: 2024 Drought", "start": "2024-03-01", "end": "2024-09-30", "color": "#ef4444", "y_sea": 1.15, "y_yr": 0.30},
+        {"name": "D3: 2022 Drought", "start": "2022-03-01", "end": "2022-09-30", "color": "#ef4444", "y_sea": 1.5, "y_yr": 0.35},
+        {"name": "D4: 2024 Drought", "start": "2024-03-01", "end": "2024-09-30", "color": "#ef4444", "y_sea": 1.1, "y_yr": 0.28},
     ]
     
     event_patches = [
@@ -125,78 +126,140 @@ def main():
         Patch(facecolor="#10b981", alpha=0.15, label="Documented Flood/Hurricane"),
     ]
     
-    # --- Visualization ---
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10.5, 9.5), sharex=True)
+    # 4 chronological panels (overlapping ~10 years each)
+    panels = [
+        {"start": "1998-01-01", "end": "2007-12-31", "title": "1) 1998–2007 Decade"},
+        {"start": "2004-01-01", "end": "2013-12-31", "title": "2) 2004–2013 Decade"},
+        {"start": "2010-01-01", "end": "2019-12-31", "title": "3) 2010–2019 Decade"},
+        {"start": "2016-01-01", "end": "2025-12-31", "title": "4) 2016–2025 Decade"},
+    ]
     
-    # Colors for components
     colors = {
-        "chsi": "black",
+        "chsi": "#1e3a8a",        # Navy blue (non-black) for CHSI
         "t2m": "#ef4444",         # Red for Temperature
         "soil": "#b45309",        # Earthy Brown for Soil Dryness
         "pev": "#f97316"          # Orange for Potential Evaporation
     }
     
-    # Subplot A: Seasonal (90-day) Slopes
-    ax1.plot(daily.index, daily["t2m_slope_sea"], color=colors["t2m"], alpha=0.6, linewidth=0.9, label="Temperature Slope ($T_{2m}$)")
-    ax1.plot(daily.index, daily["soil_slope_sea"], color=colors["soil"], alpha=0.6, linewidth=0.9, label="Soil Dryness Slope ($1 - swvl1$)")
-    ax1.plot(daily.index, daily["pev_slope_sea"], color=colors["pev"], alpha=0.6, linewidth=0.9, label="PEV Slope ($|pev|$)")
-    ax1.plot(daily.index, daily["chsi_slope_sea"], color=colors["chsi"], alpha=0.95, linewidth=1.8, label="CHSI Slope (Composite)")
+    # =========================================================================
+    # FIGURE 6: SEASONAL SLOPES (90-day) - 4 stacked panels
+    # =========================================================================
+    print("Generating Figure 6 (Seasonal Slopes, 4 panels)...")
+    fig6, axes6 = plt.subplots(4, 1, figsize=(11, 11), sharex=False)
     
-    ax1.axhline(0, color="gray", linestyle=":", linewidth=0.8)
-    ax1.set_ylabel("Trend Slope (yr$^{-1}$)")
-    ax1.set_title("A) Seasonal Rolling Slopes (Centered 90-Day Window, Half Point of Season)", fontweight="bold")
-    ax1.grid(True, linestyle=":", alpha=0.5)
-    ax1.set_ylim(-2.6, 2.1)
-    
-    # Subplot B: Yearly (365-day) Slopes
-    ax2.plot(daily.index, daily["t2m_slope_yr"], color=colors["t2m"], alpha=0.7, linewidth=1.1, label="Temperature Slope ($T_{2m}$)")
-    ax2.plot(daily.index, daily["soil_slope_yr"], color=colors["soil"], alpha=0.7, linewidth=1.1, label="Soil Dryness Slope ($1 - swvl1$)")
-    ax2.plot(daily.index, daily["pev_slope_yr"], color=colors["pev"], alpha=0.7, linewidth=1.1, label="PEV Slope ($|pev|$)")
-    ax2.plot(daily.index, daily["chsi_slope_yr"], color=colors["chsi"], alpha=0.95, linewidth=2.0, label="CHSI Slope (Composite)")
-    
-    ax2.axhline(0, color="gray", linestyle=":", linewidth=0.8)
-    ax2.set_ylabel("Trend Slope (yr$^{-1}$)")
-    ax2.set_xlabel("Year")
-    ax2.set_title("B) Yearly Rolling Slopes (Centered 365-Day Window)", fontweight="bold")
-    ax2.grid(True, linestyle=":", alpha=0.5)
-    ax2.set_ylim(-0.55, 0.48)
-    
-    # Overlay events
-    for ev in events:
-        start_t = pd.Timestamp(ev["start"])
-        end_t = pd.Timestamp(ev["end"])
+    for idx, panel in enumerate(panels):
+        ax = axes6[idx]
+        p_start = pd.Timestamp(panel["start"])
+        p_end = pd.Timestamp(panel["end"])
         
-        # Shading
-        ax1.axvspan(start_t, end_t, color=ev["color"], alpha=0.15)
-        ax2.axvspan(start_t, end_t, color=ev["color"], alpha=0.15)
+        # Filter daily data for this panel
+        mask = (daily.index >= p_start) & (daily.index <= p_end)
+        df_panel = daily[mask]
         
-        # Midpoint for text
-        mid_point = start_t + (end_t - start_t) / 2
+        # Plot slopes
+        ax.plot(df_panel.index, df_panel["t2m_slope_sea"], color=colors["t2m"], alpha=0.6, linewidth=0.9, label="Temperature Slope ($T_{2m}$)")
+        ax.plot(df_panel.index, df_panel["soil_slope_sea"], color=colors["soil"], alpha=0.6, linewidth=0.9, label="Soil Dryness Slope ($1 - swvl1$)")
+        ax.plot(df_panel.index, df_panel["pev_slope_sea"], color=colors["pev"], alpha=0.6, linewidth=0.9, label="PEV Slope ($|pev|$)")
+        ax.plot(df_panel.index, df_panel["chsi_slope_sea"], color=colors["chsi"], alpha=0.95, linewidth=1.8, label="CHSI Slope (Composite)")
         
-        # Add labels
-        ax1.text(mid_point, ev["y_sea"], ev["name"].split(":")[0], color=ev["color"], 
-                 fontsize=8, fontweight="bold", ha="center", va="center")
-        ax2.text(mid_point, ev["y_yr"], ev["name"].split(":")[0], color=ev["color"], 
-                 fontsize=8, fontweight="bold", ha="center", va="center")
-                 
-    # Build legends
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    handles1.extend(event_patches)
-    ax1.legend(handles=handles1, loc="upper right", ncol=2, frameon=True)
+        ax.axhline(0, color="gray", linestyle=":", linewidth=0.8)
+        ax.set_xlim(p_start, p_end)
+        ax.set_ylim(-2.6, 2.1)
+        ax.set_ylabel("Slope (yr$^{-1}$)")
+        ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
+        ax.grid(True, linestyle=":", alpha=0.5)
+        sns.despine(ax=ax)
+        
+        # Overlay events that fall within this panel's range
+        for ev in events:
+            ev_start = pd.Timestamp(ev["start"])
+            ev_end = pd.Timestamp(ev["end"])
+            
+            # Check overlap
+            if ev_start <= p_end and ev_end >= p_start:
+                # Shade event region
+                ax.axvspan(ev_start, ev_end, color=ev["color"], alpha=0.15)
+                
+                # Compute visible midpoint for placing the text
+                visible_start = max(ev_start, p_start)
+                visible_end = min(ev_end, p_end)
+                mid_point = visible_start + (visible_end - visible_start) / 2
+                
+                ax.text(mid_point, ev["y_sea"], ev["name"].split(":")[0], color=ev["color"], 
+                         fontsize=8, fontweight="bold", ha="center", va="center")
+        
+        # Add legend only to the first panel to avoid clutter
+        if idx == 0:
+            handles, labels = ax.get_legend_handles_labels()
+            handles.extend(event_patches)
+            ax.legend(handles=handles, loc="upper right", ncol=3, frameon=True)
+            
+    fig6.suptitle("Centered Seasonal Rolling Slopes of CHSI vs. Components (90-Day Window)", fontsize=13, fontweight="bold", y=0.98)
+    fig6.tight_layout()
+    fig6.savefig("reports/figures/06_chsi_seasonal_slopes_comparison.png")
+    plt.close(fig6)
+    print("Figure 6 saved successfully.")
     
-    handles2, labels2 = ax2.get_legend_handles_labels()
-    handles2.extend(event_patches)
-    ax2.legend(handles=handles2, loc="upper right", ncol=2, frameon=True)
+    # =========================================================================
+    # FIGURE 7: YEARLY SLOPES (365-day) - 4 stacked panels
+    # =========================================================================
+    print("Generating Figure 7 (Yearly Slopes, 4 panels)...")
+    fig7, axes7 = plt.subplots(4, 1, figsize=(11, 11), sharex=False)
     
-    sns.despine(ax=ax1)
-    sns.despine(ax=ax2)
+    for idx, panel in enumerate(panels):
+        ax = axes7[idx]
+        p_start = pd.Timestamp(panel["start"])
+        p_end = pd.Timestamp(panel["end"])
+        
+        # Filter daily data for this panel
+        mask = (daily.index >= p_start) & (daily.index <= p_end)
+        df_panel = daily[mask]
+        
+        # Plot slopes
+        ax.plot(df_panel.index, df_panel["t2m_slope_yr"], color=colors["t2m"], alpha=0.7, linewidth=1.1, label="Temperature Slope ($T_{2m}$)")
+        ax.plot(df_panel.index, df_panel["soil_slope_yr"], color=colors["soil"], alpha=0.7, linewidth=1.1, label="Soil Dryness Slope ($1 - swvl1$)")
+        ax.plot(df_panel.index, df_panel["pev_slope_yr"], color=colors["pev"], alpha=0.7, linewidth=1.1, label="PEV Slope ($|pev|$)")
+        ax.plot(df_panel.index, df_panel["chsi_slope_yr"], color=colors["chsi"], alpha=0.95, linewidth=2.0, label="CHSI Slope (Composite)")
+        
+        ax.axhline(0, color="gray", linestyle=":", linewidth=0.8)
+        ax.set_xlim(p_start, p_end)
+        ax.set_ylim(-0.55, 0.48)
+        ax.set_ylabel("Slope (yr$^{-1}$)")
+        ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
+        ax.grid(True, linestyle=":", alpha=0.5)
+        sns.despine(ax=ax)
+        
+        # Overlay events that fall within this panel's range
+        for ev in events:
+            ev_start = pd.Timestamp(ev["start"])
+            ev_end = pd.Timestamp(ev["end"])
+            
+            # Check overlap
+            if ev_start <= p_end and ev_end >= p_start:
+                # Shade event region
+                ax.axvspan(ev_start, ev_end, color=ev["color"], alpha=0.15)
+                
+                # Compute visible midpoint for placing the text
+                visible_start = max(ev_start, p_start)
+                visible_end = min(ev_end, p_end)
+                mid_point = visible_start + (visible_end - visible_start) / 2
+                
+                ax.text(mid_point, ev["y_yr"], ev["name"].split(":")[0], color=ev["color"], 
+                         fontsize=8, fontweight="bold", ha="center", va="center")
+        
+        # Add legend only to the first panel
+        if idx == 0:
+            handles, labels = ax.get_legend_handles_labels()
+            handles.extend(event_patches)
+            ax.legend(handles=handles, loc="upper right", ncol=3, frameon=True)
+            
+    fig7.suptitle("Centered Yearly Rolling Slopes of CHSI vs. Components (365-Day Window)", fontsize=13, fontweight="bold", y=0.98)
+    fig7.tight_layout()
+    fig7.savefig("reports/figures/07_chsi_yearly_slopes_comparison.png")
+    plt.close(fig7)
+    print("Figure 7 saved successfully.")
     
-    fig.tight_layout()
-    fig.savefig("reports/figures/06_chsi_rolling_trends_centered.png")
-    plt.close(fig)
-    print("Figure 6 generated successfully at 'reports/figures/06_chsi_rolling_trends_centered.png'.")
-    
-    # Print statistics for discussion
+    # Print key statistics
     print("\n--- Key Statistics for Discussion ---")
     print(f"Max Seasonal CHSI Slope: {daily['chsi_slope_sea'].max():+.5f}/year")
     print(f"Max Yearly CHSI Slope: {daily['chsi_slope_yr'].max():+.5f}/year")

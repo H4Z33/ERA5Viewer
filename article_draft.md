@@ -343,24 +343,26 @@ To understand the long-term temporal trajectory and rate of change of the Compos
 1. **Seasonal Window (90-day)**: Captures the short-term, intra-annual rate of change, centered on the middle of the season ($t \pm 45\ \text{days}$) to represent the half-point of the season.
 2. **Yearly Window (365-day)**: Captures the longer-term, annual rate of change, centered on the middle of the year ($t \pm 182.5\ \text{days}$) to filter out seasonal cycles.
 
-To understand the underlying drivers of these trends, we compared the rolling slopes of the composite CHSI directly against the rolling slopes of its individual normalized input features: temperature ($T_{2m}$), soil dryness ($1 - swvl1$), and potential evaporation ($|pev|$) (Figure 6).
+To understand the underlying drivers of these trends, we compared the rolling slopes of the composite CHSI directly against the rolling slopes of its individual normalized input features: temperature ($T_{2m}$), soil dryness ($1 - swvl1$), and potential evaporation ($|pev|$). To resolve the high-frequency temporal detail of these records across the 28-year history, the timeline was divided into four overlapping 10-year panels (1998–2007, 2004–2013, 2010–2019, and 2016–2025) for both the seasonal scale (Figure 6) and the yearly scale (Figure 7).
 
 The global long-term linear trend of the reconstructed CHSI is positive and highly statistically significant:
 $$\text{Slope}_{\text{global}} = +0.001100\ \text{year}^{-1} \quad (R^2 = 0.0056, \ p < 0.0001)$$
 This indicates a steady, multi-decadal shift toward higher hydric stress across the 28-year window (a cumulative increase of approximately $+0.0308$ in the index).
 
 #### Seasonal Slope Analysis
-At the seasonal scale (Figure 6, Panel A), the slopes show high high-frequency volatility, reflecting rapid transitions in basin hydrology. The seasonal CHSI slope peaks at $+1.53831\ \text{year}^{-1}$ during rapid drying phases and drops to $-2.37934\ \text{year}^{-1}$ during extreme precipitation events. 
+At the seasonal scale (Figure 6), the slopes show high high-frequency volatility, reflecting rapid transitions in basin hydrology. The seasonal CHSI slope peaks at $+1.53831\ \text{year}^{-1}$ during rapid drying phases and drops to $-2.37934\ \text{year}^{-1}$ during extreme precipitation events. 
 - During flood events (e.g., F1–F5), the sharp negative slopes are heavily dominated by rapid increases in soil moisture (extreme negative soil dryness slopes) and cooled land surface temperatures.
 - During drought onset phases (e.g., D1–D4), the rapid accumulation of hydric stress is driven by a concurrent surge in soil dryness and potential evaporation slopes, illustrating how "flash droughts" can develop within a single season.
 
+![Figure 6: Centered Seasonal Rolling Slopes of CHSI vs. Normalized Components (90-Day Window, 4 Panels)](reports/figures/06_chsi_seasonal_slopes_comparison.png)
+
 #### Yearly Slope Analysis
-At the yearly scale (Figure 6, Panel B), seasonal noise is filtered out, revealing the sustained, year-over-year rate of stress accumulation. The peak yearly CHSI slope occurred on **February 24, 2009** at $+0.35861\ \text{year}^{-1}$. 
+At the yearly scale (Figure 7), seasonal noise is filtered out, revealing the sustained, year-over-year rate of stress accumulation. The peak yearly CHSI slope occurred on **February 24, 2009** at $+0.35861\ \text{year}^{-1}$. 
 Analyzing the constituent curves reveals that this peak annual stress transition was heavily dominated by soil moisture depletion, with the soil dryness slope peaking at $+0.54017\ \text{year}^{-1}$. This was accompanied by a temperature warming slope of $+0.27577\ \text{year}^{-1}$ and an evaporative demand slope of $+0.25990\ \text{year}^{-1}$. 
 
 This multi-scale component comparison demonstrates that while soil moisture depletion acts as the primary driver of rapid stress acceleration during the initial stages of a drought cycle, sustained warming and high potential evaporation maintain the elevated baseline stress over multi-year periods.
 
-![Figure 6: Centered Rolling Slopes of CHSI vs. Normalized Components](reports/figures/06_chsi_rolling_trends_centered.png)
+![Figure 7: Centered Yearly Rolling Slopes of CHSI vs. Normalized Components (365-Day Window, 4 Panels)](reports/figures/07_chsi_yearly_slopes_comparison.png)
 
 ---
 
@@ -368,9 +370,9 @@ This multi-scale component comparison demonstrates that while soil moisture depl
 
 The results of this study have significant implications for both local water resource management in Sur de Tamaulipas and the broader methodology of inferring non-observable hydrologic parameters:
 
-1. **Warming and Stress Trends**: The statistically significant warming trend of $+0.0387^\circ\text{C}/\text{year}$ in the Tamesí basin, coupled with increasing potential evaporation magnitude, indicates that atmospheric evaporative demand is accelerating. Even if precipitation remains relatively stable, this warming increases the "drawdown" rate of soil moisture, leading to faster onset of agricultural and ecological droughts (flash droughts). The multi-scale centered rolling slope analysis (Figure 6) confirms this behavior: the seasonal temperature slope shows strong short-term warming pulses, while the peak yearly CHSI slope (centered on February 24, 2009 at $+0.35861\ \text{year}^{-1}$) demonstrates a sustained multi-year trend toward severe drying driven by soil moisture depletion ($+0.54017\ \text{year}^{-1}$) and evaporative demand ($+0.25990\ \text{year}^{-1}$).
+1. **Warming and Stress Trends**: The statistically significant warming trend of $+0.0387^\circ\text{C}/\text{year}$ in the Tamesí basin, coupled with increasing potential evaporation magnitude, indicates that atmospheric evaporative demand is accelerating. Even if precipitation remains relatively stable, this warming increases the "drawdown" rate of soil moisture, leading to faster onset of agricultural and ecological droughts (flash droughts). The multi-scale centered rolling slope analysis (Figures 6 and 7) confirms this behavior: the seasonal temperature slope shows strong short-term warming pulses, while the peak yearly CHSI slope (centered on February 24, 2009 at $+0.35861\ \text{year}^{-1}$) demonstrates a sustained multi-year trend toward severe drying driven by soil moisture depletion ($+0.54017\ \text{year}^{-1}$) and evaporative demand ($+0.25990\ \text{year}^{-1}$).
 
-2. **CHSI as a Diagnostic Tool**: The Z-score validation shows that the CHSI is a highly sensitive indicator of basin-wide hydrological states. In particular, the severe droughts of 2022 ($Z = +0.832$) and 2024 ($Z = +0.494$) are clearly captured. For floods, the sharp negative Z-scores (e.g., $-1.079$ during Hurricane Ingrid) show how the index reflects rapid saturation and cooled land surfaces. Additionally, the centered yearly rolling slope comparison (Figure 6, Panel B) shows that the Tamesí basin is currently in its most sustained multi-year drying cycle since the beginning of the record, with elevated yearly slopes persisting throughout the 2018–2024 period, indicating an ongoing systemic shift in the region's hydrology.
+2. **CHSI as a Diagnostic Tool**: The Z-score validation shows that the CHSI is a highly sensitive indicator of basin-wide hydrological states. In particular, the severe droughts of 2022 ($Z = +0.832$) and 2024 ($Z = +0.494$) are clearly captured. For floods, the sharp negative Z-scores (e.g., $-1.079$ during Hurricane Ingrid) show how the index reflects rapid saturation and cooled land surfaces. Additionally, the centered yearly rolling slope comparison (Figure 7) shows that the Tamesí basin is currently in its most sustained multi-year drying cycle since the beginning of the record, with elevated yearly slopes persisting throughout the 2018–2024 period, indicating an ongoing systemic shift in the region's hydrology.
 
 3. **Model Selection and Sequential Learning Gains**: 
    The comparison between Random Forest and Gradient Boosting Regressor demonstrates that boosting offers a key advantage in modeling hydric stress. While RF's bagging approach provides a robust baseline, GBR reduces the prediction error (RMSE) by 37.9%. This is because boosting constructs sequential trees that focus on reducing residuals from previous iterations. In environmental modeling, this allows GBR to better capture boundary conditions—such as the rapid transitions into "flash droughts" or peak saturation during landfalling hurricanes—which bagging models tend to smooth out.
