@@ -176,6 +176,23 @@ def generate_figure_3(df):
     ax.set_ylim(0, 1.05)
     ax.set_title("CHSI Reconstruction vs. Documented Extreme Events (1998–2025)", fontweight="bold")
     
+    # Add seasonal vertical rulers as a secondary top x-axis
+    ax_sec = ax.twiny()
+    ax_sec.set_xlim(ax.get_xlim())
+    start_yr = daily.index.min().year
+    end_yr = daily.index.max().year
+    seasonal_dates = []
+    for yr in range(start_yr - 1, end_yr + 2):
+        for m in [3, 6, 9, 12]:
+            dt = pd.Timestamp(f"{yr}-{m:02d}-01")
+            if daily.index.min() <= dt <= daily.index.max():
+                seasonal_dates.append(dt)
+    ax_sec.set_xticks(seasonal_dates)
+    ax_sec.set_xticklabels([])
+    ax_sec.tick_params(axis='x', which='both', length=0)
+    ax_sec.grid(True, axis='x', linestyle=':', color='#cbd5e1', alpha=0.4, linewidth=0.7)
+    sns.despine(ax=ax_sec, top=True, right=True, left=True, bottom=True)
+    
     from matplotlib.patches import Patch
     legend_elements = [
         Patch(facecolor="#ef4444", alpha=0.3, label="Documented Drought"),

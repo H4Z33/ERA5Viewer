@@ -122,6 +122,24 @@ def main():
         ax.set_ylabel("Normalized Value")
         ax.set_title(panel["title"], fontweight="bold", fontsize=11, loc="left")
         ax.grid(True, linestyle=":", alpha=0.5)
+        
+        # Add seasonal vertical rulers as a secondary top x-axis
+        ax_sec = ax.twiny()
+        ax_sec.set_xlim(ax.get_xlim())
+        start_yr = p_start.year
+        end_yr = p_end.year
+        seasonal_dates = []
+        for yr in range(start_yr - 1, end_yr + 2):
+            for m in [3, 6, 9, 12]:
+                dt = pd.Timestamp(f"{yr}-{m:02d}-01")
+                if p_start <= dt <= p_end:
+                    seasonal_dates.append(dt)
+        ax_sec.set_xticks(seasonal_dates)
+        ax_sec.set_xticklabels([])
+        ax_sec.tick_params(axis='x', which='both', length=0)
+        ax_sec.grid(True, axis='x', linestyle=':', color='#cbd5e1', alpha=0.4, linewidth=0.7)
+        sns.despine(ax=ax_sec, top=True, right=True, left=True, bottom=True)
+        
         sns.despine(ax=ax)
         
         for ev in events:
