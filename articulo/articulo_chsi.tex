@@ -8,7 +8,7 @@
 % --- Codificación y tipografía ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[spanish,es-tabla]{babel}
+\usepackage[spanish,es-tabla,es-nodecimaldot]{babel}
 \usepackage{mathptmx}              % Times New Roman (APA 7)
 \usepackage{microtype}
 
@@ -32,13 +32,13 @@
 \usepackage{tabularx}
 
 % --- Referencias APA 7 ---
-\usepackage[style=apa,backend=biber,language=spanish]{biblatex}
+\usepackage[style=apa,backend=biber,language=spanish,doi=false]{biblatex}
 \DeclareLanguageMapping{spanish}{spanish-apa}
 \addbibresource{referencias_chsi.bib}
 
 % --- Hipervínculos ---
 \usepackage{xcolor}
-\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
 
 % --- Encabezados de sección sin numeración excesiva ---
 \usepackage{titlesec}
@@ -54,6 +54,7 @@
 
 % ============================================================
 \begin{document}
+\decimalpoint
 
 % --- Página de título ---
 \begin{titlepage}
@@ -64,17 +65,17 @@
 
 \vspace{2cm}
 
-{\large Raúl Alejandro Morales Rivera}
+{\large Raul Alejandro Morales Rivera}
 
 \vspace{0.5cm}
 
 División de Estudios de Posgrado e Investigación\\
-Facultad de Ingeniería ``Arturo Narro Siller''\\
+Facultad de Ingenieria Tampico\\
 Universidad Autónoma de Tamaulipas
 
-\vspace{2cm}
+\vfill
 
-{\large\today}
+{\small\today}
 
 \end{center}
 \end{titlepage}
@@ -83,7 +84,7 @@ Universidad Autónoma de Tamaulipas
 \section*{Resumen}
 % ============================================================
 
-La cuantificación del estrés hídrico en cuencas hidrológicas resulta fundamental para la seguridad del agua, la planificación agrícola y la preservación ecológica. Sin embargo, el estrés hídrico integrado constituye una variable de estado compleja, no observable de manera directa, que depende del acoplamiento entre la disponibilidad de agua en el suelo, la demanda evaporativa atmosférica y el forzamiento térmico. En este estudio se propone y valida el \textbf{Índice Compuesto de Estrés Hídrico} (\emph{Composite Hydric Stress Index}, CHSI), un indicador derivado mediante aprendizaje automático a partir de 28~años (1998--2025) de datos horarios de reanálisis ERA5-Land sobre la cuenca del río Guayalejo-Tamesí, en el noreste de México. Se entrenó un regresor de Gradient Boosting (GBR) sobre una variable de respuesta basada en el balance hídrico, utilizando 23~variables predictoras que representan cocientes físicos, ventanas temporales móviles, anomalías climatológicas y codificaciones cíclicas del calendario. El modelo alcanzó una capacidad predictiva elevada en un esquema de validación cruzada temporal con $k = 5$ pliegues ($R^2$ medio $= 0{,}9958$; RMSE medio $= 0{,}0072$). El Análisis de Componentes Principales (ACP) reveló que el primer componente (52,87\,\% de la varianza) captura la dinámica acoplada de desecamiento hídrico-térmico de la cuenca. El análisis de tendencias de Mann-Kendall identificó un calentamiento local significativo de $+0{,}0387\,^\circ\text{C/año}$ ($p = 0{,}0032$) y un incremento significativo de la demanda evaporativa potencial ($p = 0{,}0350$). La validación del CHSI frente a nueve eventos extremos históricos documentados (cuatro sequías y cinco inundaciones asociadas a ciclones tropicales) demostró una concordancia direccional del 100\,\%, con sequías severas (2022 y 2024) que presentaron puntuaciones~$Z$ elevadas ($+0{,}832$ y $+0{,}494$, respectivamente) y eventos de inundación (huracán Ingrid, 2013) con desviaciones negativas marcadas ($-1{,}079$). Este marco metodológico demuestra que variables hídricas complejas y no observables pueden reconstruirse de forma robusta a partir de variables climáticas de reanálisis, estableciendo una línea base para su escalamiento posterior con teledetección satelital de alta resolución.
+La cuantificación del estrés hídrico en cuencas hidrológicas resulta fundamental para la seguridad del agua, la planificación agrícola y la preservación ecológica. Sin embargo, el estrés hídrico integrado constituye una variable de estado compleja, no observable de manera directa, que depende del acoplamiento entre la disponibilidad de agua en el suelo, la demanda evaporativa atmosférica y el forzamiento térmico. En este estudio se propone y valida el \textbf{Índice Compuesto de Estrés Hídrico} (\emph{Composite Hydric Stress Index}, CHSI), un indicador derivado mediante aprendizaje automático a partir de 28~años (1998--2025) de datos horarios de reanálisis ERA5-Land sobre la cuenca del río Guayalejo-Tamesí, en el noreste de México. Se entrenó un regresor de Gradient Boosting (GBR) sobre una variable de respuesta basada en el balance hídrico, utilizando 23~variables predictoras que representan cocientes físicos, ventanas temporales móviles, anomalías climatológicas y codificaciones cíclicas del calendario. El modelo alcanzó una capacidad predictiva elevada en un esquema de validación cruzada temporal con $k = 5$ pliegues ($R^2$ medio $= 0.9958$; RMSE medio $= 0.0072$). El Análisis de Componentes Principales (ACP) reveló que el primer componente (52.87\,\% de la varianza) captura la dinámica acoplada de desecamiento hídrico-térmico de la cuenca. El análisis de tendencias de Mann-Kendall identificó un calentamiento local significativo de $+0.0387\,^\circ\text{C/año}$ ($p = 0.0032$) y un incremento significativo de la demanda evaporativa potencial ($p = 0.0350$). La validación del CHSI frente a nueve eventos extremos históricos documentados (cuatro sequías y cinco inundaciones asociadas a ciclones tropicales) demostró una concordancia direccional del 100\,\%, con sequías severas (2022 y 2024) que presentaron puntuaciones~$Z$ elevadas ($+0.832$ y $+0.494$, respectivamente) y eventos de inundación (huracán Ingrid, 2013) con desviaciones negativas marcadas ($-1.079$). Este marco metodológico demuestra que variables hídricas complejas y no observables pueden reconstruirse de forma robusta a partir de variables climáticas de reanálisis, estableciendo una línea base para su escalamiento posterior con teledetección satelital de alta resolución.
 
 \vspace{0.5cm}
 \noindent\textbf{Palabras clave:} estrés hídrico, aprendizaje automático, ERA5-Land, cuenca del río Tamesí, reanálisis climático, parámetros no observables.
@@ -95,9 +96,9 @@ La cuantificación del estrés hídrico en cuencas hidrológicas resulta fundame
 \label{sec:introduccion}
 % ============================================================
 
-La cuantificación del estrés hídrico en cuencas hidrológicas representa un desafío central de la hidrología contemporánea, particularmente bajo el contexto del cambio climático acelerado. Mientras que los parámetros físicos primarios (temperatura, precipitación y contenido de agua en el suelo) pueden medirse de forma directa o estimarse mediante teledetección, el estado integrado del estrés hídrico es, en esencia, un \textbf{parámetro no observable de forma directa}. Dicho estado representa una condición termodinámica compuesta que emerge de la interacción acoplada entre la oferta de agua en el suelo, la demanda evaporativa atmosférica y el forzamiento térmico \parencite{seneviratne2010investigating}.
+La cuantificación del estrés hídrico en cuencas hidrológicas representa un desafío central de la hidrología contemporánea, particularmente bajo el contexto del cambio climático acelerado. Mientras que los parámetros físicos primarios (temperatura, precipitación y contenido de agua en el suelo) pueden medirse de forma directa o estimarse mediante teledetección, el estado integrado del estrés hídrico es, en esencia, un \textbf{parámetro no observable de forma directa}. Dicho estado representa una condición termodinámica compuesta que emerge de la interacción acoplada entre la oferta de agua en el suelo, la demanda evaporativa atmosférica y el forzamiento térmico \parencite{seneviratne2010investigating}. Para abordar la complejidad de estas interacciones acopladas, investigaciones recientes se han enfocado en el desarrollo de nuevos indicadores de riesgo y salud de humedales y cuencas costeras mediante la integración de variables hidroclimáticas multivariantes y modelos basados en datos (data-driven models), demostrando su utilidad para aproximar estados no observables en ecosistemas costeros vulnerables \parencite{elyasi2025proposing}.
 
-Los índices convencionales de sequía, como el Índice Estandarizado de Precipitación \parencite[SPI;][]{mckee1993relationship} o el Índice de Severidad de Sequía de Palmer \parencite[PDSI;][]{palmer1965meteorological}, se apoyan en abstracciones meteorológicas y con frecuencia no capturan los acoplamientos físicos de alta frecuencia entre el suelo y la atmósfera baja a escala sub-diaria. En México, el Monitor de Sequía de México (MSM), administrado por la Comisión Nacional del Agua (CONAGUA), integra diversas fuentes de información, incluyendo el modelo de humedad del suelo \emph{Leaky Bucket} del Centro de Predicción Climática de la NOAA \parencite{lobato2016monitor}, para estimar los estados de sequía agrícola e hidrológica. No obstante, el modelo \emph{Leaky Bucket} opera como un balance hídrico simplificado de una sola capa, alimentado primariamente por registros meteorológicos puntuales, lo que limita su capacidad para capturar la heterogeneidad espacial y el acoplamiento atmosférico a escala fina. El conjunto de datos de reanálisis ERA5-Land del Servicio de Cambio Climático de Copernicus (C3S) ofrece estimaciones globales de variables de superficie terrestre con alta resolución espacial ($0{,}1^\circ \times 0{,}1^\circ$) y cobertura temporal extendida (desde~1950), lo que constituye una oportunidad para analizar estos acoplamientos de manera sistemática \parencite{munoz2021era5}.
+Los índices convencionales de sequía, como el Índice Estandarizado de Precipitación \parencite[SPI;][]{mckee1993relationship} o el Índice de Severidad de Sequía de Palmer \parencite[PDSI;][]{palmer1965meteorological}, se apoyan en abstracciones meteorológicas y con frecuencia no capturan los acoplamientos físicos de alta frecuencia entre el suelo y la atmósfera baja a escala sub-diaria. En México, el Monitor de Sequía de México (MSM), administrado por la Comisión Nacional del Agua (CONAGUA), integra diversas fuentes de información, incluyendo el modelo de humedad del suelo \emph{Leaky Bucket} del Centro de Predicción Climática de la NOAA \parencite{lobato2016monitor}, para estimar los estados de sequía agrícola e hidrológica. No obstante, el modelo \emph{Leaky Bucket} opera como un balance hídrico simplificado de una sola capa, alimentado primariamente por registros meteorológicos puntuales, lo que limita su capacidad para capturar la heterogeneidad espacial y el acoplamiento atmosférico a escala fina. El conjunto de datos de reanálisis ERA5-Land del Servicio de Cambio Climático de Copernicus (C3S) ofrece estimaciones globales de variables de superficie terrestre con alta resolución espacial ($0.1^\circ \times 0.1^\circ$) y cobertura temporal extendida (desde~1950), lo que constituye una oportunidad para analizar estos acoplamientos de manera sistemática \parencite{munoz2021era5}.
 
 La cuenca del río Guayalejo-Tamesí, ubicada en el noreste de México (sur de Tamaulipas), es una región agrícola e industrial de alta relevancia económica, vulnerable a eventos hidrometeorológicos extremos. Durante las últimas décadas, la cuenca ha experimentado sequías severas, como la crisis hídrica excepcional de~2024 que provocó la suspensión de operaciones industriales en Altamira, así como eventos de precipitación extrema asociados a ciclones tropicales (huracán Ingrid, 2013).
 
@@ -126,17 +127,19 @@ El estudio se centra en la cuenca baja del río Guayalejo-Tamesí, delimitada po
     \label{eq:bbox}
 \end{equation}
 %
-Esta región abarca la porción meridional del estado de Tamaulipas, México, y comprende una malla de $21 \times 21 = 441$ celdas a la resolución espacial de $0{,}1^\circ$ de ERA5-Land. El clima varía desde semiárido en los valles interiores hasta subhúmedo en la franja costera del Golfo de México, con una estación húmeda pronunciada de junio a octubre.
+Esta región abarca la porción meridional del estado de Tamaulipas, México, y comprende una malla de $21 \times 21 = 441$ celdas a la resolución espacial de $0.1^\circ$ de ERA5-Land. El clima varía desde semiárido en los valles interiores hasta subhúmedo en la franja costera del Golfo de México, con una estación húmeda pronunciada de junio a octubre.
 
 \subsection{Variables de reanálisis}
 \label{subsec:variables}
 
-Se recuperaron variables horarias de superficie terrestre del conjunto de datos ERA5-Land del Centro Europeo de Previsiones Meteorológicas a Plazo Medio (ECMWF) mediante la interfaz de programación del Copernicus Climate Data Store (CDS API) para el periodo de 28~años comprendido entre el 1 de enero de~1998 y el 31 de diciembre de~2025, lo que totaliza aproximadamente 245\,107 pasos temporales horarios. Las tres variables nucleares seleccionadas son:
+Se recuperaron variables horarias de superficie terrestre del conjunto de datos ERA5-Land del Centro Europeo de Previsiones Meteorológicas a Plazo Medio (ECMWF) mediante la interfaz de programación del Copernicus Climate Data Store (CDS API) para el periodo de 28~años comprendido entre el 1 de enero de~1998 y el 31 de diciembre de~2025, lo que totaliza aproximadamente 245\,107 pasos temporales horarios. Para cada una de estas variables, los campos espaciales de las 441 celdas de la malla dentro del dominio de la cuenca fueron promediados espacialmente en cada paso temporal horario, generando una serie de tiempo univariada representativa de las condiciones macroclimáticas de la cuenca baja del Tamesí.
+
+Las tres variables nucleares seleccionadas y sus significados físicos son:
 
 \begin{enumerate}
-    \item \textbf{Temperatura a 2~metros ($t2m$):} Representa el forzamiento térmico y la disponibilidad de energía en la interfaz suelo-atmósfera (unidades: Kelvin, convertidas a~$^\circ$C).
-    \item \textbf{Contenido volumétrico de agua en la capa~1 del suelo ($swvl1$, 0--7~cm):} Representa la disponibilidad de agua en la capa superficial del suelo (unidades: m$^3$/m$^3$).
-    \item \textbf{Evaporación potencial ($pev$):} Representa la demanda evaporativa potencial de la atmósfera (unidades: metros, acumulada; valores negativos indican flujo desde la superficie).
+    \item \textbf{Temperatura a 2~metros ($t2m$):} Actúa como el forzamiento energético primario del sistema suelo-atmósfera. En condiciones de baja humedad edáfica, la radiación solar entrante se destina preferentemente a flujo de calor sensible en lugar de calor latente, elevando la temperatura del aire superficial y amplificando el déficit de presión de vapor (VPD), lo cual intensifica el estrés térmico en la vegetación (unidades originales: Kelvin, convertidas a~$^\circ$C en el preprocesamiento).
+    \item \textbf{Contenido volumétrico de agua en la capa~1 del suelo ($swvl1$, 0--7~cm):} Representa la disponibilidad de agua edáfica inmediata en la zona de interfase. En el reanálisis ERA5-Land, esta variable se deriva del modelo de superficie HTESSEL e indica la fracción volumétrica de agua contenida en el suelo (unidades: m$^3$/m$^3$). Es un indicador clave para capturar el inicio de la sequía agrícola y ecológica, ya que refleja la disponibilidad de agua en el estrato de raíces superficiales.
+    \item \textbf{Evaporación potencial ($pev$):} Cuantifica la demanda evaporativa máxima de la atmósfera bajo condiciones de suministro ilimitado de agua. De acuerdo con la convención de flujo del ECMWF, la evaporación se expresa en metros acumulados con valores negativos (indicando transporte de flujo neto desde la superficie hacia la atmósfera); por ende, en este estudio se utiliza su magnitud absoluta ($|pev|$) para caracterizar la severidad del forzamiento evaporativo atmosférico.
 \end{enumerate}
 
 La selección de estas tres variables responde al principio físico de que el estrés hídrico emerge del acoplamiento entre la oferta de agua en el suelo ($swvl1$), la demanda atmosférica ($pev$) y el forzamiento energético ($t2m$), formando un triángulo termodinámico cuya dinámica integrada no es observable de forma directa.
@@ -151,34 +154,76 @@ El procedimiento metodológico se estructura en cuatro etapas: (1)~formulación 
 \subsection{Formulación de la variable de respuesta}
 \label{subsec:target}
 
-Para representar el estado integrado de estrés hídrico a escala diaria, se formuló un índice basado en el principio de balance hídrico. El estrés hídrico alcanza su máximo cuando la temperatura ($t2m$) es elevada, la magnitud de la evaporación potencial ($pev$) es alta y el contenido de agua en el suelo ($swvl1$) se encuentra agotado. Los promedios diarios de las tres variables se normalizaron mediante un escalador MinMax sobre el periodo completo de 28~años:
+Para representar el estado integrado de estrés hídrico a escala diaria, se formuló un índice físico compuesto basado en el balance termodinámico y la oferta de agua del suelo. El estrés hídrico alcanza su máximo teórico cuando la temperatura ($t2m$) es elevada (máximo forzamiento térmico), la magnitud de la evaporación potencial ($pev$) es alta (máxima demanda evaporativa atmosférica) y el contenido de agua en el suelo ($swvl1$) se encuentra totalmente agotado (mínima oferta hídrica). 
+
+Los promedios diarios de las tres variables se normalizaron de manera independiente al intervalo $[0, 1]$ mediante un escalador MinMax sobre el periodo histórico completo de 28~años (1998--2025). Específicamente, para cada día $t$:
 %
 \begin{equation}
-    \text{CHSI}_{\text{target}} = \frac{T_{2m,\,\text{norm}} + (1 - \theta_{\text{swvl1},\,\text{norm}}) + |E_{\text{pev}}|_{\text{norm}}}{3}
+    T_{2m,\,\text{norm}}(t) = \frac{T_{2m}(t) - T_{2m,\,\text{min}}}{T_{2m,\,\text{max}} - T_{2m,\,\text{min}}}
+\end{equation}
+
+\begin{equation}
+    \theta_{\text{swvl1},\,\text{norm}}(t) = \frac{\theta_{\text{swvl1}}(t) - \theta_{\text{swvl1},\,\text{min}}}{\theta_{\text{swvl1},\,\text{max}} - \theta_{\text{swvl1},\,\text{min}}}
+\end{equation}
+
+\begin{equation}
+    |E_{\text{pev}}|_{\text{norm}}(t) = \frac{|E_{\text{pev}}(t)| - |E_{\text{pev}}|_{\text{min}}}{|E_{\text{pev}}|_{\text{max}} - |E_{\text{pev}}|_{\text{min}}}
+\end{equation}
+%
+donde los subíndices $\text{min}$ y $\text{max}$ representan los valores extremos absolutos de las respectivas series temporales de promedios diarios. A partir de estos componentes normalizados, el índice objetivo de estrés hídrico CHSI se define mediante la combinación aditiva ponderada equivalentemente:
+%
+\begin{equation}
+    \text{CHSI}_{\text{target}}(t) = \frac{T_{2m,\,\text{norm}}(t) + (1 - \theta_{\text{swvl1},\,\text{norm}}(t)) + |E_{\text{pev}}|_{\text{norm}}(t)}{3}
     \label{eq:chsi}
 \end{equation}
 %
-donde $T_{2m,\,\text{norm}}$, $\theta_{\text{swvl1},\,\text{norm}}$ y $|E_{\text{pev}}|_{\text{norm}}$ son las variables normalizadas al intervalo $[0,\,1]$. De esta forma, $\text{CHSI}_{\text{target}} = 0$ indica estrés hídrico mínimo (condiciones húmedas y frescas) y $\text{CHSI}_{\text{target}} = 1$ indica estrés hídrico máximo (condiciones secas y cálidas). La inversión del término de humedad edáfica ($1 - \theta_{\text{swvl1},\,\text{norm}}$) garantiza que valores bajos de contenido de agua contribuyan positivamente al índice de estrés.
+De esta forma, el índice objetivo $\text{CHSI}_{\text{target}}$ queda acotado en el intervalo $[0, 1]$. Un valor de 0 indica ausencia absoluta de estrés hídrico (condiciones frías, húmedas y de baja demanda atmosférica), mientras que un valor de 1 representa estrés hídrico severo y generalizado. La inversión del término de humedad edáfica ($1 - \theta_{\text{swvl1},\,\text{norm}}$) garantiza que una disminución en el agua del suelo incremente proporcionalmente el estrés hídrico global.
+
+Lo que estamos proponiendo con este marco de CHSI es una formulación física simplificada y robusta que actúe como un proxy de la severidad del estrés hídrico regional. El modelo de aprendizaje automático aprenderá a reproducir esta variable de respuesta objetivo utilizando únicamente variables predictoras derivadas (ratios, ventanas temporales, derivadas y anomalías), validando así la viabilidad de utilizar estimadores indirectos y acoplamientos no lineales para emular estados físicos complejos.
 
 \subsection{Derivación de variables predictoras}
 \label{subsec:features}
 
-A partir del conjunto de datos remuestreado a escala diaria se derivaron 23~variables predictoras diseñadas para capturar la dinámica temporal, las tasas de cambio, los cocientes físicos y las desviaciones climatológicas:
+A partir del conjunto de datos remuestreado a escala diaria, se derivaron 23~variables predictoras para alimentar los modelos. Es importante destacar que las tres variables físicas primarias ($t2m$, $swvl1$ y $pev$) fueron retiradas explícitamente de la matriz de entrada del modelo. Esto fuerza a los algoritmos a aprender las interacciones físicas y las dinámicas temporales únicamente a partir de descriptores derivados, previniendo soluciones triviales y evaluando la robustez de los modelos como estimadores indirectos. Las variables predictoras se agrupan en las siguientes categorías:
 
 \begin{enumerate}
-    \item \textbf{Cocientes físicos:} Índice térmico-hídrico $T_{2m} / (\theta_{\text{swvl1}} + \epsilon)$ y cociente de demanda evaporativa respecto a la humedad $|E_{\text{pev}}| / (\theta_{\text{swvl1}} + \epsilon)$, donde $\epsilon = 10^{-6}$ previene la división por cero.
-    \item \textbf{Estadísticos móviles:} Media y desviación estándar en ventanas de 7~días para $t2m$, $swvl1$ y $pev$.
-    \item \textbf{Derivadas temporales:} Diferencias a 1~día ($\Delta_{1d}$) y 7~días ($\Delta_{7d}$) para cada variable, representando las tasas de cambio de corto plazo.
-    \item \textbf{Anomalías climatológicas mensuales:} Desviación de cada variable respecto a su media mensual de largo plazo (28~años).
-    \item \textbf{Codificación cíclica del calendario:} Transformaciones seno y coseno del mes y del día del año (DOY) para capturar los ciclos estacionales de forzamiento solar.
+    \item \textbf{Cocientes físicos:} Índice térmico-hídrico $T_{2m} / (\theta_{\text{swvl1}} + \epsilon)$ y cociente de demanda evaporativa respecto a la humedad edáfica $|E_{\text{pev}}| / (\theta_{\text{swvl1}} + \epsilon)$, donde $\epsilon = 10^{-6}$ es una constante pequeña de regularización para evitar la indeterminación por división por cero. Estos ratios capturan el acoplamiento inmediato y no lineal entre el estado de humedad del suelo y el forzamiento atmosférico.
+    \item \textbf{Estadísticos móviles:} Media móvil y desviación estándar móvil de cada variable física ($t2m$, $swvl1$, $pev$) calculadas sobre una ventana temporal de 168~días. (Esta ventana de 168 días surge de multiplicar el parámetro de ventana nominal de 7 días por las 24 horas del día, aplicado directamente a la frecuencia diaria del dataset preprocesado). Esta ventana de mediano plazo permite a los modelos identificar tendencias estacionales subyacentes, persistencia de humedad edáfica e inercia térmica en la cuenca.
+    \item \textbf{Derivadas temporales:} Diferencias de corto y mediano plazo para capturar las tasas de cambio de las variables:
+    \begin{equation}
+        \Delta_{1d} X_t = X_t - X_{t-1}
+    \end{equation}
+
+    \begin{equation}
+        \Delta_{24d} X_t = X_t - X_{t-24}
+    \end{equation}
+    donde $\Delta_{1d}$ representa la tasa de cambio diaria (respuesta rápida) y $\Delta_{24d}$ representa la diferencia a 24~días (respuesta sub-estacional/mensual).
+    \item \textbf{Anomalías climatológicas mensuales:} Desviación de cada variable respecto a su media mensual histórica de largo plazo (calculada para cada mes calendario sobre el registro de 28~años):
+    \begin{equation}
+        X_{\text{anomaly}}(t) = X(t) - \mu_{\text{mes}(t)}
+    \end{equation}
+    donde $\mu_{\text{mes}(t)}$ es el promedio climatológico del mes correspondiente al día $t$. Esta variable aísla el comportamiento anómalo (sequía o superávit húmedo) del ciclo anual regular.
+    \item \textbf{Codificación cíclica del calendario:} Transformaciones trigonométricas del mes de ocurrencia ($m \in [1, 12]$) y del día del año ($\text{DOY} \in [1, 365.25]$) para modelar la estacionalidad del forzamiento de radiación solar de forma continua:
+    \begin{equation}
+        \text{Mes}_{\text{sin}} = \sin\left(\frac{2\pi \cdot m}{12}\right), \quad \text{Mes}_{\text{cos}} = \cos\left(\frac{2\pi \cdot m}{12}\right)
+    \end{equation}
+
+    \begin{equation}
+        \text{DOY}_{\text{sin}} = \sin\left(\frac{2\pi \cdot \text{DOY}}{365.25}\right), \quad \text{DOY}_{\text{cos}} = \cos\left(\frac{2\pi \cdot \text{DOY}}{365.25}\right)
+    \end{equation}
 \end{enumerate}
 
 \subsection{Entrenamiento y comparación de modelos}
 \label{subsec:modelos}
 
-Para modelar las relaciones no lineales entre las variables predictoras y la variable de respuesta se evaluaron dos arquitecturas de ensamble: un \textbf{Regresor de Bosque Aleatorio} (RF, por \emph{Random Forest}; método de \emph{bagging}) y un \textbf{Regresor de Gradient Boosting} (GBR; método de \emph{boosting}). Ambos modelos se configuraron con 200~estimadores. Para el RF se estableció una profundidad máxima de~15 y un tamaño mínimo de hoja de~10 para prevenir el sobreajuste. Para el GBR se seleccionó una profundidad máxima de~8, una tasa de aprendizaje de~0,05 y una fracción de submuestreo de~0,8.
+Para modelar las complejas interacciones no lineales entre las 23~variables predictoras descritas y la variable de respuesta $\text{CHSI}_{\text{target}}$, se evaluaron y compararon dos arquitecturas de aprendizaje automático de ensamble basadas en árboles de decisión:
 
-Para garantizar una validación robusta y prevenir la fuga temporal (\emph{temporal leakage}), se empleó una \textbf{validación cruzada de series temporales} (\texttt{TimeSeriesSplit} con $k = 5$ pliegues). El conjunto de datos se dividió de forma secuencial, asegurando que el modelo siempre se evaluara sobre datos futuros respecto a su conjunto de entrenamiento.
+\begin{enumerate}
+    \item \textbf{Regresor de Bosque Aleatorio (RF):} Un modelo basado en el método de agregación bootstrap (\emph{bagging}) que entrena múltiples árboles de decisión de forma independiente sobre submuestras aleatorias del conjunto de datos. La predicción final es el promedio de las predicciones de todos los árboles individuales, lo que reduce drásticamente la varianza del modelo y mitiga el sobreajuste. Se configuró con 200~estimadores, una profundidad máxima (\texttt{max\_depth}) de 15 y un tamaño mínimo de muestras en hoja (\texttt{min\_samples\_leaf}) de 10.
+    \item \textbf{Regresor de Gradient Boosting (GBR):} Un modelo basado en el método de potenciación (\emph{boosting}) que construye árboles de decisión secuenciales. Cada árbol sucesivo se entrena para predecir y corregir los residuos (errores) acumulados por los árboles anteriores, minimizando una función de pérdida (en este caso, el error cuadrático medio, MSE) a través del descenso de gradiente. Se configuró con 200~estimadores, una profundidad máxima de 8, una tasa de aprendizaje (\texttt{learning\_rate}) de 0.05 y una fracción de submuestreo de datos (\texttt{subsample}) de 0.8 para introducir regularización estocástica.
+\end{enumerate}
+
+Para garantizar una validación estadísticamente rigurosa y prevenir la fuga de información temporal (\emph{temporal data leakage}), se implementó un esquema de \textbf{validación cruzada de series temporales} (\texttt{TimeSeriesSplit} de scikit-learn con $k = 5$ pliegues). En este esquema, el conjunto de datos se divide de manera estrictamente cronológica. Para cada pliegue $i$, el modelo se entrena en los pliegues históricos $1$ a $i$ y se evalúa en el pliegue subsiguiente $i+1$, asegurando que las predicciones se realicen siempre hacia el futuro y respetando la estructura de dependencia temporal del clima.
 
 \subsection{Interpretabilidad mediante valores SHAP}
 \label{subsec:shap}
@@ -223,14 +268,14 @@ El análisis de tendencias de Mann-Kendall sobre las medias anuales (1998--2025)
 \toprule
 Variable & Métrica & Tendencia lineal (año$^{-1}$) & $R^2$ & $p$ & Significancia \\
 \midrule
-$t2m$   & Temperatura          & $+0{,}0387\;^\circ$C       & 0,2893 & 0,0032 & Significativa \\
-$swvl1$ & Humedad edáfica      & $-0{,}00039$ m$^3$/m$^3$   & 0,0263 & 0,4093 & No significativa \\
-$pev$   & Evaporación potencial & $-1{,}3 \times 10^{-5}$ m  & 0,1599 & 0,0350 & Significativa \\
+$t2m$   & Temperatura          & $+0.0387\;^\circ$C       & 0.2893 & 0.0032 & Significativa \\
+$swvl1$ & Humedad edáfica      & $-0.00039$ m$^3$/m$^3$   & 0.0263 & 0.4093 & No significativa \\
+$pev$   & Evaporación potencial & $-1.3 \times 10^{-5}$ m  & 0.1599 & 0.0350 & Significativa \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-La cuenca muestra una tendencia al calentamiento pronunciada y estadísticamente significativa de $+0{,}0387\,^\circ$C/año, equivalente a $+1{,}08\,^\circ$C acumulados durante la ventana de 28~años. Simultáneamente, la demanda evaporativa registra un incremento significativo ($p = 0{,}0350$), consistente con el calentamiento regional. La humedad edáfica superficial presenta una tendencia negativa, aunque no significativa, lo que indica alta variabilidad interanual en la capa superficial del suelo.
+La cuenca muestra una tendencia al calentamiento pronunciada y estadísticamente significativa de $+0.0387\,^\circ$C/año, equivalente a $+1.08\,^\circ$C acumulados durante la ventana de 28~años. Simultáneamente, la demanda evaporativa registra un incremento significativo ($p = 0.0350$), consistente con el calentamiento regional. La humedad edáfica superficial presenta una tendencia negativa, aunque no significativa, lo que indica alta variabilidad interanual en la capa superficial del suelo.
 
 \begin{figure}[H]
     \centering
@@ -242,7 +287,7 @@ La cuenca muestra una tendencia al calentamiento pronunciada y estadísticamente
 \subsection{Estructura multivariante y análisis de componentes principales}
 \label{subsec:pca}
 
-El Análisis de Componentes Principales (ACP) sobre las variables escaladas indica que los dos primeros componentes explican el 86,7\,\% de la varianza total en el espacio tridimensional (Tabla~\ref{tab:pca} y Figura~\ref{fig:correlation}).
+El Análisis de Componentes Principales (ACP) sobre las variables escaladas indica que los dos primeros componentes explican el 86.7\,\% de la varianza total en el espacio tridimensional (Tabla~\ref{tab:pca} y Figura~\ref{fig:correlation}).
 
 \begin{table}[H]
 \centering
@@ -253,14 +298,16 @@ El Análisis de Componentes Principales (ACP) sobre las variables escaladas indi
 \toprule
 Componente & Varianza (\%) & Carga $t2m$ & Carga $swvl1$ & Carga $pev$ & Interpretación \\
 \midrule
-PC1 & 52,87 & $-0{,}3677$ & $+0{,}5988$ & $+0{,}7115$ & Estado hídrico-evaporativo acoplado \\
-PC2 & 33,83 & $+0{,}8456$ & $+0{,}5336$ & $-0{,}0121$ & Forzamiento térmico-hídrico \\
-PC3 & 13,29 & $+0{,}3869$ & $-0{,}5972$ & $+0{,}7026$ & Residuos de demanda atmosférica \\
+PC1 & 52.87 & $-0.3677$ & $+0.5988$ & $+0.7115$ & Estado hídrico-evaporativo acoplado \\
+PC2 & 33.83 & $+0.8456$ & $+0.5336$ & $-0.0121$ & Forzamiento térmico-hídrico \\
+PC3 & 13.29 & $+0.3869$ & $-0.5972$ & $+0.7026$ & Residuos de demanda atmosférica \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-PC1 representa el comportamiento hídrico-evaporativo acoplado del sistema suelo-vegetación-atmósfera. Las cargas positivas tanto para la humedad edáfica ($swvl1$) como para la evaporación potencial ($pev$, que en ERA5-Land se almacena con signo negativo, de modo que valores menos negativos indican menor demanda) señalan que las condiciones de suelo húmedo se acoplan con menor demanda evaporativa. PC2 está dominado por la temperatura ($+0{,}85$) y representa el componente independiente de forzamiento térmico.
+PC1 representa el comportamiento hídrico-evaporativo acoplado del sistema suelo-vegetación-atmósfera. Las cargas positivas tanto para la humedad edáfica ($swvl1$) como para la evaporación potencial ($pev$, que en ERA5-Land se almacena con signo negativo, de modo que valores menos negativos indican menor demanda) señalan que las condiciones de suelo húmedo se acoplan con menor demanda evaporativa. PC2 está dominado por la temperatura ($+0.85$) y representa el componente independiente de forzamiento térmico.
+
+Adicionalmente, los mapas de calor de correlación estacional (Figura~\ref{fig:correlation}) revelan patrones dinámicos clave en el acoplamiento suelo-atmósfera a lo largo del año. La correlación entre la temperatura ($t2m$) y la evaporación potencial ($pev$) es consistentemente fuerte y positiva (considerando la magnitud absoluta $|pev|$), lo que refleja que el forzamiento térmico es el principal motor de la demanda evaporativa atmosférica, alcanzando sus valores de Pearson más elevados durante la primavera (MAM, $r > 0.85$) y el verano (JJA, $r > 0.90$). Por otro lado, la relación entre la humedad edáfica superficial ($swvl1$) y la temperatura presenta una marcada variabilidad estacional. Durante la transición seca de primavera (MAM), se observa una correlación negativa moderada a fuerte, lo que evidencia el acoplamiento bidireccional donde la depleción de agua en el suelo limita el enfriamiento por evaporación latente, transfiriendo la energía disponible hacia el flujo de calor sensible y elevando la temperatura del aire. En contraste, durante el invierno (DEF), esta correlación se debilita notablemente debido a que la dinámica térmica es dominada por sistemas sinópticos externos (frentes fríos o ``nortes'') y no por retroalimentaciones locales de la superficie. Finalmente, la correlación negativa entre la humedad del suelo y la demanda evaporativa absoluta se intensifica en el verano y otoño (SON), periodos donde los eventos de precipitación intensa saturan el perfil del suelo y, simultáneamente, incrementan la cobertura nubosa y la humedad relativa, atenuando la demanda atmosférica.
 
 \begin{figure}[H]
     \centering
@@ -283,18 +330,18 @@ Ambos modelos exhibieron un desempeño elevado en todos los pliegues de validaci
 \toprule
 Pliegue & Periodo de prueba & RMSE (RF) & RMSE (GBR) & $R^2$ (RF) & $R^2$ (GBR) \\
 \midrule
-1 & 2002-09 $\to$ 2007-05 & 0,0150 & 0,0105 & 0,9817 & 0,9911 \\
-2 & 2007-05 $\to$ 2011-12 & 0,0138 & 0,0085 & 0,9876 & 0,9952 \\
-3 & 2011-12 $\to$ 2016-08 & 0,0107 & 0,0066 & 0,9916 & 0,9968 \\
-4 & 2016-08 $\to$ 2021-03 & 0,0089 & 0,0051 & 0,9937 & 0,9979 \\
-5 & 2021-03 $\to$ 2025-12 & 0,0095 & 0,0053 & 0,9937 & 0,9981 \\
+1 & 2002-09 $\to$ 2007-05 & 0.0150 & 0.0105 & 0.9817 & 0.9911 \\
+2 & 2007-05 $\to$ 2011-12 & 0.0138 & 0.0085 & 0.9876 & 0.9952 \\
+3 & 2011-12 $\to$ 2016-08 & 0.0107 & 0.0066 & 0.9916 & 0.9968 \\
+4 & 2016-08 $\to$ 2021-03 & 0.0089 & 0.0051 & 0.9937 & 0.9979 \\
+5 & 2021-03 $\to$ 2025-12 & 0.0095 & 0.0053 & 0.9937 & 0.9981 \\
 \midrule
-\textbf{Media} & --- & \textbf{0,0116} & \textbf{0,0072} & \textbf{0,9897} & \textbf{0,9958} \\
+\textbf{Media} & --- & \textbf{0.0116} & \textbf{0.0072} & \textbf{0.9897} & \textbf{0.9958} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-El GBR redujo el RMSE medio en un 37,9\,\% respecto al RF (de 0,0116 a 0,0072) y alcanzó un $R^2$ medio de 0,9958. Este resultado indica que el mecanismo de aprendizaje secuencial de residuos del \emph{boosting} resulta altamente efectivo para capturar las no linealidades a escala fina en la retroalimentación suelo-atmósfera.
+El GBR redujo el RMSE medio en un 37.9\,\% respecto al RF (de 0.0116 a 0.0072) y alcanzó un $R^2$ medio de 0.9958. Este resultado indica que el mecanismo de aprendizaje secuencial de residuos del \emph{boosting} resulta altamente efectivo para capturar las no linealidades a escala fina en la retroalimentación suelo-atmósfera.
 
 \begin{figure}[H]
     \centering
@@ -326,15 +373,15 @@ La validación de la serie CHSI reconstruida frente al catálogo de eventos extr
 \toprule
 Evento & Tipo & Periodo & CHSI medio & Línea base & $Z$ & Resultado \\
 \midrule
-Sequía 1998--2003       & Sequía      & 1998-01 a 2003-12 & 0,5271 & 0,5173 & $+0{,}099$ & Correcto \\
-Sequía excepcional 2011 & Sequía      & 2011-01 a 2012-06 & 0,5527 & 0,5173 & $+0{,}320$ & Correcto \\
-Sequía severa 2022      & Sequía      & 2022-03 a 2022-09 & 0,6118 & 0,5173 & $+0{,}832$ & Correcto \\
-Sequía excepcional 2024 & Sequía      & 2024-03 a 2024-09 & 0,5727 & 0,5173 & $+0{,}494$ & Correcto \\
-Huracán Keith 2000      & Inundación  & 2000-10-01 a 10-15 & 0,4011 & 0,5173 & $-0{,}993$ & Correcto \\
-Inundaciones jul. 2007  & Inundación  & 2007-07            & 0,4995 & 0,5173 & $-0{,}141$ & Correcto \\
-Huracán Alex 2010       & Inundación  & 2010-06-15 a 07-15 & 0,4683 & 0,5173 & $-0{,}412$ & Correcto \\
-Huracán Ingrid 2013     & Inundación  & 2013-09-15 a 10-15 & 0,3913 & 0,5173 & $-1{,}079$ & Correcto \\
-Inundaciones 2017       & Inundación  & 2017-09-20 a 10-10 & 0,4292 & 0,5173 & $-0{,}750$ & Correcto \\
+Sequía 1998--2003       & Sequía      & 1998-01 a 2003-12 & 0.5271 & 0.5173 & $+0.099$ & Correcto \\
+Sequía excepcional 2011 & Sequía      & 2011-01 a 2012-06 & 0.5527 & 0.5173 & $+0.320$ & Correcto \\
+Sequía severa 2022      & Sequía      & 2022-03 a 2022-09 & 0.6118 & 0.5173 & $+0.832$ & Correcto \\
+Sequía excepcional 2024 & Sequía      & 2024-03 a 2024-09 & 0.5727 & 0.5173 & $+0.494$ & Correcto \\
+Huracán Keith 2000      & Inundación  & 2000-10-01 a 10-15 & 0.4011 & 0.5173 & $-0.993$ & Correcto \\
+Inundaciones jul. 2007  & Inundación  & 2007-07            & 0.4995 & 0.5173 & $-0.141$ & Correcto \\
+Huracán Alex 2010       & Inundación  & 2010-06-15 a 07-15 & 0.4683 & 0.5173 & $-0.412$ & Correcto \\
+Huracán Ingrid 2013     & Inundación  & 2013-09-15 a 10-15 & 0.3913 & 0.5173 & $-1.079$ & Correcto \\
+Inundaciones 2017       & Inundación  & 2017-09-20 a 10-10 & 0.4292 & 0.5173 & $-0.750$ & Correcto \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -359,13 +406,13 @@ Para comprender la trayectoria temporal y la tasa de cambio del CHSI, se realiz�
 La tendencia lineal global del CHSI reconstruido es positiva y altamente significativa:
 %
 \begin{equation}
-    \text{Pendiente}_{\text{global}} = +0{,}001100\;\text{año}^{-1} \quad (R^2 = 0{,}0056,\; p < 0{,}0001)
+    \text{Pendiente}_{\text{global}} = +0.001100\;\text{año}^{-1} \quad (R^2 = 0.0056,\; p < 0.0001)
     \label{eq:trend_global}
 \end{equation}
 %
-Este resultado indica un desplazamiento multidecadal sostenido hacia niveles superiores de estrés hídrico a lo largo de los 28~años (un incremento acumulado de aproximadamente $+0{,}0308$ en el índice).
+Este resultado indica un desplazamiento multidecadal sostenido hacia niveles superiores de estrés hídrico a lo largo de los 28~años (un incremento acumulado de aproximadamente $+0.0308$ en el índice).
 
-A escala estacional (Figura~\ref{fig:seasonal_slopes}), las pendientes exhiben alta volatilidad, reflejando transiciones rápidas en la hidrología de la cuenca. Durante eventos de inundación, las pendientes negativas son dominadas por incrementos acelerados de humedad edáfica (pendientes de sequedad del suelo de hasta $-4{,}6958$~año$^{-1}$). Durante las fases de inicio de sequía, la acumulación de estrés se impulsa por un aumento concurrente de la sequedad edáfica y la evaporación potencial.
+A escala estacional (Figura~\ref{fig:seasonal_slopes}), las pendientes exhiben alta volatilidad, reflejando transiciones rápidas en la hidrología de la cuenca. Durante eventos de inundación, las pendientes negativas son dominadas por incrementos acelerados de humedad edáfica (pendientes de sequedad del suelo de hasta $-4.6958$~año$^{-1}$). Durante las fases de inicio de sequía, la acumulación de estrés se impulsa por un aumento concurrente de la sequedad edáfica y la evaporación potencial.
 
 \begin{figure}[H]
     \centering
@@ -374,7 +421,7 @@ A escala estacional (Figura~\ref{fig:seasonal_slopes}), las pendientes exhiben a
     \label{fig:seasonal_slopes}
 \end{figure}
 
-A escala anual (Figura~\ref{fig:yearly_slopes}), el ruido estacional se filtra y se revela la tasa sostenida de acumulación de estrés interanual. La pendiente anual máxima del CHSI se registró el 24 de febrero de~2009 ($+0{,}35861$~año$^{-1}$), dominada por la depleción de humedad edáfica ($+0{,}54017$~año$^{-1}$), acompañada por calentamiento ($+0{,}27577$~año$^{-1}$) y demanda evaporativa ($+0{,}25990$~año$^{-1}$).
+A escala anual (Figura~\ref{fig:yearly_slopes}), el ruido estacional se filtra y se revela la tasa sostenida de acumulación de estrés interanual. La pendiente anual máxima del CHSI se registró el 24 de febrero de~2009 ($+0.35861$~año$^{-1}$), dominada por la depleción de humedad edáfica ($+0.54017$~año$^{-1}$), acompañada por calentamiento ($+0.27577$~año$^{-1}$) y demanda evaporativa ($+0.25990$~año$^{-1}$).
 
 \begin{figure}[H]
     \centering
@@ -386,7 +433,7 @@ A escala anual (Figura~\ref{fig:yearly_slopes}), el ruido estacional se filtra y
 \subsection{CHSI reconstruido frente a estados de los componentes normalizados}
 \label{subsec:components}
 
-La Figura~\ref{fig:components} presenta el promedio móvil centrado de 30~días del CHSI normalizado junto con sus componentes individuales. Durante las sequías excepcionales de 2022 y 2024, el CHSI se mantiene consistentemente por encima de 0,60, impulsado por una sequedad edáfica ($1 - swvl1$) superior a 0,70 y una evaporación potencial elevada. Durante eventos de inundación, el índice desciende por debajo de 0,35 conforme la sequedad edáfica se aproxima a 0,15 por saturación.
+La Figura~\ref{fig:components} presenta el promedio móvil centrado de 30~días del CHSI normalizado junto con sus componentes individuales. Durante las sequías excepcionales de 2022 y 2024, el CHSI se mantiene consistentemente por encima de 0.60, impulsado por una sequedad edáfica ($1 - swvl1$) superior a 0.70 y una evaporación potencial elevada. Durante eventos de inundación, el índice desciende por debajo de 0.35 conforme la sequedad edáfica se aproxima a 0.15 por saturación.
 
 \begin{figure}[H]
     \centering
@@ -409,19 +456,19 @@ Se analizaron las tendencias lineales del CHSI bajo distintos regímenes hidrol�
 \toprule
 Régimen / Ventana & Pendiente (año$^{-1}$) & $R^2$ & $p$ & Interpretación física \\
 \midrule
-Durante sequía              & $+0{,}005713$ & 0,0137 & $<0{,}0001$ & Aceleración del desecamiento \\
-Fuera de sequía             & $+0{,}002712$ & 0,0167 & $<0{,}0001$ & Línea base de desecamiento gradual \\
-1~año pre-inundación        & $+0{,}064908$ & 0,0248 & $<0{,}0001$ & Acumulación de estrés pre-evento \\
-1~año post-inundación       & $+0{,}118477$ & 0,0801 & $<0{,}0001$ & Velocidad de recuperación post-evento \\
-2~años pre-inundación       & $+0{,}023604$ & 0,0139 & $<0{,}0001$ & Acumulación de estrés pre-evento \\
-2~años post-inundación      & $+0{,}042680$ & 0,0433 & $<0{,}0001$ & Velocidad de recuperación post-evento \\
-5~años pre-inundación       & $+0{,}004290$ & 0,0026 & $<0{,}0001$ & Acumulación de estrés pre-evento \\
-5~años post-inundación      & $+0{,}006620$ & 0,0067 & $<0{,}0001$ & Velocidad de recuperación post-evento \\
+Durante sequía              & $+0.005713$ & 0.0137 & $<0.0001$ & Aceleración del desecamiento \\
+Fuera de sequía             & $+0.002712$ & 0.0167 & $<0.0001$ & Línea base de desecamiento gradual \\
+1~año pre-inundación        & $+0.064908$ & 0.0248 & $<0.0001$ & Acumulación de estrés pre-evento \\
+1~año post-inundación       & $+0.118477$ & 0.0801 & $<0.0001$ & Velocidad de recuperación post-evento \\
+2~años pre-inundación       & $+0.023604$ & 0.0139 & $<0.0001$ & Acumulación de estrés pre-evento \\
+2~años post-inundación      & $+0.042680$ & 0.0433 & $<0.0001$ & Velocidad de recuperación post-evento \\
+5~años pre-inundación       & $+0.004290$ & 0.0026 & $<0.0001$ & Acumulación de estrés pre-evento \\
+5~años post-inundación      & $+0.006620$ & 0.0067 & $<0.0001$ & Velocidad de recuperación post-evento \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Durante los periodos de sequía documentados, el estrés hídrico se acumula a una tasa de $+0{,}005713$~año$^{-1}$ ($p < 0{,}0001$), más del doble de la tasa observada fuera de sequías ($+0{,}002712$~año$^{-1}$). En los años previos a los ciclones tropicales, la cuenca registra pendientes positivas ($+0{,}064908$~año$^{-1}$ en la ventana de 1~año), lo que indica que las inundaciones en esta región tienden a ocurrir al final de ciclos secos severos, actuando como eventos de ruptura de sequía. Inmediatamente después del inicio de una inundación, el CHSI exhibe una tendencia positiva pronunciada ($+0{,}118477$~año$^{-1}$), que representa la \emph{velocidad de relajación y recuperación hidrológica} de la cuenca hacia su estado basal.
+Durante los periodos de sequía documentados, el estrés hídrico se acumula a una tasa de $+0.005713$~año$^{-1}$ ($p < 0.0001$), más del doble de la tasa observada fuera de sequías ($+0.002712$~año$^{-1}$). En los años previos a los ciclones tropicales, la cuenca registra pendientes positivas ($+0.064908$~año$^{-1}$ en la ventana de 1~año), lo que indica que las inundaciones en esta región tienden a ocurrir al final de ciclos secos severos, actuando como eventos de ruptura de sequía. Inmediatamente después del inicio de una inundación, el CHSI exhibe una tendencia positiva pronunciada ($+0.118477$~año$^{-1}$), que representa la \emph{velocidad de relajación y recuperación hidrológica} de la cuenca hacia su estado basal.
 
 \begin{figure}[H]
     \centering
@@ -446,34 +493,42 @@ Los resultados obtenidos tienen implicaciones relevantes tanto para la gestión 
 
 \subsection{Calentamiento regional y aceleración de la demanda evaporativa}
 
-La tendencia de calentamiento significativa de $+0{,}0387\,^\circ$C/año en la cuenca del Tamesí, acoplada con el incremento de la magnitud de la evaporación potencial, indica que la demanda evaporativa atmosférica se está acelerando. Aun si la precipitación permaneciera relativamente estable, este calentamiento incrementa la tasa de extracción de humedad del suelo, favoreciendo el inicio acelerado de sequías agrícolas y ecológicas, fenómeno descrito en la literatura como sequía repentina (\emph{flash drought}) \parencite{otkin2018flash}. El análisis de tendencias por ventana móvil (Figuras~\ref{fig:seasonal_slopes} y~\ref{fig:yearly_slopes}) confirma este comportamiento: la pendiente estacional de temperatura muestra pulsos de calentamiento de corto plazo, mientras que la pendiente anual máxima del CHSI ($+0{,}35861$~año$^{-1}$, centrada en febrero de~2009) revela una transición multianual sostenida hacia condiciones de desecamiento severo, impulsada por la depleción de humedad edáfica ($+0{,}54017$~año$^{-1}$) y la demanda evaporativa ($+0{,}25990$~año$^{-1}$).
+La tendencia de calentamiento significativa de $+0.0387\,^\circ$C/año en la cuenca del Tamesí, acoplada con el incremento de la magnitud de la evaporación potencial, indica que la demanda evaporativa atmosférica se está acelerando. Aun si la precipitación permaneciera relativamente estable, este calentamiento incrementa la tasa de extracción de humedad del suelo, favoreciendo el inicio acelerado de sequías agrícolas y ecológicas, fenómeno descrito en la literatura como sequía repentina (\emph{flash drought}) \parencite{otkin2018flash}. El análisis de tendencias por ventana móvil (Figuras~\ref{fig:seasonal_slopes} y~\ref{fig:yearly_slopes}) confirma este comportamiento: la pendiente estacional de temperatura muestra pulsos de calentamiento de corto plazo, mientras que la pendiente anual máxima del CHSI ($+0.35861$~año$^{-1}$, centrada en febrero de~2009) revela una transición multianual sostenida hacia condiciones de desecamiento severo, impulsada por la depleción de humedad edáfica ($+0.54017$~año$^{-1}$) y la demanda evaporativa ($+0.25990$~año$^{-1}$).
 
 \subsection{El CHSI como herramienta diagnóstica}
 
-La validación mediante puntuaciones~$Z$ demuestra que el CHSI constituye un indicador sensible del estado hidrológico a escala de cuenca. Las sequías severas de~2022 ($Z = +0{,}832$) y~2024 ($Z = +0{,}494$) son capturadas con claridad, al igual que los eventos de inundación, cuyos valores~$Z$ negativos pronunciados (por ejemplo, $-1{,}079$ durante el huracán Ingrid) reflejan la saturación rápida del suelo y el enfriamiento superficial asociado. La comparación de las pendientes anuales centradas (Figura~\ref{fig:yearly_slopes}) y los estados de las variables componentes (Figura~\ref{fig:components}) sugieren que la cuenca del Tamesí se encuentra en su ciclo de desecamiento multianual más sostenido desde el inicio del registro, con pendientes anuales elevadas persistentes durante el periodo 2018--2024.
+La validación mediante puntuaciones~$Z$ demuestra que el CHSI constituye un indicador sensible del estado hidrológico a escala de cuenca. Las sequías severas de~2022 ($Z = +0.832$) y~2024 ($Z = +0.494$) son capturadas con claridad, al igual que los eventos de inundación, cuyos valores~$Z$ negativos pronunciados (por ejemplo, $-1.079$ durante el huracán Ingrid) reflejan la saturación rápida del suelo y el enfriamiento superficial asociado. La comparación de las pendientes anuales centradas (Figura~\ref{fig:yearly_slopes}) y los estados de las variables componentes (Figura~\ref{fig:components}) sugieren que la cuenca del Tamesí se encuentra en su ciclo de desecamiento multianual más sostenido desde el inicio del registro, con pendientes anuales elevadas persistentes durante el periodo 2018--2024. Esta respuesta dinámica diferenciada y la sensibilidad para capturar tanto la firma de sequías prolongadas como el exceso hídrico transitorio es consistente con los hallazgos de \textcite{rostami2025simulating}, quienes demuestran la viabilidad de utilizar modelado basado en datos y análisis de series de tiempo para simular inundaciones compuestas y el impacto de ciclones tropicales en zonas costeras vulnerables, sirviendo como proxy del estado hidrológico integrado.
+
+\subsection{Contraste con metodologías y métricas alternativas}
+
+El desarrollo del CHSI ofrece ventajas distintivas al compararse con metodologías tradicionales e índices convencionales de sequía y estrés hídrico. Los índices meteorológicos como el SPI \parencite{mckee1993relationship} o el SPEI \parencite{vicente2010multiscalar} se calculan de manera puramente estadística a partir de datos de precipitación y temperatura acumulados en ventanas temporales fijas. Aunque son útiles para caracterizar anomalías a escala regional, ignoran por completo el estado del suelo y el acoplamiento termodinámico con la vegetación, lo que limita su capacidad para representar el estrés fisiológico real en la cuenca. Al integrar directamente el contenido de agua edáfica superficial ($swvl1$), el CHSI captura no solo la falta de lluvia, sino la respuesta del suelo y su interacción con la atmósfera.
+
+Por otra parte, el Monitor de Sequía de México (MSM) de la CONAGUA utiliza el modelo conceptual \emph{Leaky Bucket} de una sola capa \parencite{lobato2016monitor}. Si bien este modelo representa un avance al estimar la humedad del suelo, carece de acoplamiento con las variaciones de temperatura y demanda evaporativa a escalas temporales de alta resolución (sub-diarias u horarias). El CHSI, derivado de ERA5-Land, aprovecha la asimilación de datos físicos continuos y modela el triángulo de estrés (energía, agua en el suelo y demanda atmosférica) de forma acoplada.
+
+Frente a metodologías basadas exclusivamente en sensores remotos ópticos, como el Índice de Estrés Hídrico de la Vegetación (VSWI) o el Índice Multibanda Normalizado de Sequía (NMDI) de \textcite{ghafari2024spatial}, que dependen de la reflectancia en las bandas del infrarrojo cercano y de onda corta, el CHSI basado en reanálisis presenta una cobertura temporal continua y libre de la interferencia por nubosidad, una limitación crítica en las cuencas costeras del Golfo de México durante la temporada de ciclones. Además, a diferencia de los índices puramente empíricos, los estimadores no lineales desarrollados (GBR y RF) permiten emular estas dinámicas sin requerir la presencia de variables físicas primarias en tiempo real, validando al CHSI como un emulador dinámico viable para la transferencia espacial.
 
 \subsection{Selección del modelo y ganancia del aprendizaje secuencial}
 
-La comparación entre el RF y el GBR demuestra que el \emph{boosting} ofrece una ventaja determinante en la modelación del estrés hídrico. Si bien el enfoque de \emph{bagging} del RF proporciona una línea base robusta, el GBR reduce el error de predicción (RMSE) en un 37,9\,\%. El mecanismo de \emph{boosting} construye árboles secuenciales que se enfocan en reducir los residuos de iteraciones previas, lo que le permite capturar con mayor precisión las condiciones de frontera, tales como las transiciones rápidas hacia sequías repentinas o la saturación máxima durante el paso de ciclones tropicales, que los modelos de \emph{bagging} tienden a suavizar.
+La comparación entre el RF y el GBR demuestra que el \emph{boosting} ofrece una ventaja determinante en la modelación del estrés hídrico. Si bien el enfoque de \emph{bagging} del RF proporciona una línea base robusta, el GBR reduce el error de predicción (RMSE) en un 37.9\,\%. El mecanismo de \emph{boosting} construye árboles secuenciales que se enfocan en reducir los residuos de iteraciones previas, lo que le permite capturar con mayor precisión las condiciones de frontera, tales como las transiciones rápidas hacia sequías repentinas o la saturación máxima durante el paso de ciclones tropicales, que los modelos de \emph{bagging} tienden a suavizar.
 
 \subsection{Interpretabilidad física mediante SHAP}
 
-Mediante la extracción de valores SHAP se supera el sesgo de la importancia estándar de Gini, que sobre-representa las variables continuas. El análisis SHAP revela un umbral no lineal en el acoplamiento suelo-atmósfera: cuando la humedad edáfica ($swvl1$) desciende por debajo de $0{,}22$~m$^3$/m$^3$, la contribución SHAP del índice térmico-hídrico ($T_{2m}/\theta_{\text{swvl1}}$) se incrementa de forma exponencial. Este comportamiento modela la transición desde un régimen de evapotranspiración limitado por energía hacia un régimen limitado por agua, proporcionando una explicación física de las retroalimentaciones suelo-atmósfera consistente con el marco teórico de \textcite{seneviratne2010investigating}.
+Mediante la extracción de valores SHAP se supera el sesgo de la importancia estándar de Gini, que sobre-representa las variables continuas. El análisis SHAP revela un umbral no lineal en el acoplamiento suelo-atmósfera: cuando la humedad edáfica ($swvl1$) desciende por debajo de $0.22$~m$^3$/m$^3$, la contribución SHAP del índice térmico-hídrico ($T_{2m}/\theta_{\text{swvl1}}$) se incrementa de forma exponencial. Este comportamiento modela la transición desde un régimen de evapotranspiración limitado por energía hacia un régimen limitado por agua, proporcionando una explicación física de las retroalimentaciones suelo-atmósfera consistente con el marco teórico de \textcite{seneviratne2010investigating}.
 
 \subsection{Dinámica de régimen hidrológico}
 
-El análisis de regímenes (Tabla~\ref{tab:regimen}) revela que durante sequías documentadas el estrés se acumula al doble de la tasa observada en periodos normales. La pendiente positiva pre-inundación ($+0{,}064908$~año$^{-1}$ en la ventana de 1~año) indica que los ciclones tropicales en esta cuenca tienden a ocurrir tras ciclos secos prolongados, funcionando como eventos de ruptura de sequía. La elevada pendiente post-inundación ($+0{,}118477$~año$^{-1}$) cuantifica la velocidad de relajación hidrológica de la cuenca: la inundación deposita un exceso de humedad que se disipa rápidamente bajo las condiciones de alta demanda evaporativa propias de la región, retornando al estado basal climatológico en uno a dos años.
+El análisis de regímenes (Tabla~\ref{tab:regimen}) revela que durante sequías documentadas el estrés se acumula al doble de la tasa observada en periodos normales. La pendiente positiva pre-inundación ($+0.064908$~año$^{-1}$ en la ventana de 1~año) indica que los ciclones tropicales en esta cuenca tienden a ocurrir tras ciclos secos prolongados, funcionando como eventos de ruptura de sequía. La elevada pendiente post-inundación ($+0.118477$~año$^{-1}$) cuantifica la velocidad de relajación hidrológica de la cuenca: la inundación deposita un exceso de humedad que se disipa rápidamente bajo las condiciones de alta demanda evaporativa propias de la región, retornando al estado basal climatológico en uno a dos años.
 
 \subsection{Integración con la línea de investigación doctoral}
 
-Un cuello de botella recurrente en la teledetección de recursos hídricos radica en que las observaciones satelitales (reflectancia óptica, retrodispersión de radar) son indirectas y están limitadas por la cobertura nubosa y los periodos de revisita. Los datos de reanálisis como ERA5-Land ofrecen registros continuos y de largo plazo, pero con resolución espacial gruesa (${\sim}9$~km). La metodología del CHSI funciona como una \emph{línea base de reducción de escala e inferencia}. El elevado desempeño del GBR ($R^2 > 0{,}99$) demuestra que el mapeo estadístico de las interacciones suelo-atmósfera es altamente aprendible. En la siguiente fase de esta línea de investigación, el modelo se adaptará para integrar entradas de teledetección satelital de alta resolución (NDVI de Sentinel-2, índice de humedad de Sentinel-1, evapotranspiración real de MODIS) con el objetivo de reducir la escala del CHSI desde 9~km hasta 10--100~m, habilitando el monitoreo de estrés hídrico a escala de parcela agrícola.
+Un cuello de botella recurrente en la teledetección de recursos hídricos radica en que las observaciones satelitales (reflectancia óptica, retrodispersión de radar) son indirectas y están limitadas por la cobertura nubosa y los periodos de revisita. Los datos de reanálisis como ERA5-Land ofrecen registros continuos y de largo plazo, pero con resolución espacial gruesa (${\sim}9$~km). La metodología del CHSI funciona como una \emph{línea base de reducción de escala e inferencia}. El elevado desempeño del GBR ($R^2 > 0.99$) demuestra que el mapeo estadístico de las interacciones suelo-atmósfera es altamente aprendible. En la siguiente fase de esta línea de investigación, el modelo se adaptará para integrar entradas de teledetección satelital de alta resolución (NDVI de Sentinel-2, índice de humedad de Sentinel-1, evapotranspiración real de MODIS) con el objetivo de reducir la escala del CHSI desde 9~km hasta 10--100~m, habilitando el monitoreo de estrés hídrico a escala de parcela agrícola. Este enfoque de interpolación y downscaling espacial de la humedad superficial mediante el acoplamiento de sensores de microondas y ópticos con aprendizaje automático es consistente con estudios recientes de reducción de escala para productos de radiómetro satelital global como SMAP \parencite{ghafari2024spatial}.
 
 % ============================================================
 \section{Conclusiones}
 \label{sec:conclusiones}
 % ============================================================
 
-En este estudio se derivó y validó el Índice Compuesto de Estrés Hídrico (CHSI) para la cuenca del río Guayalejo-Tamesí a partir de 28~años de datos horarios ERA5-Land y aprendizaje automático comparativo. El Regresor de Gradient Boosting (GBR) demostró ser superior al modelo de Bosque Aleatorio, explicando el 99,58\,\% de la varianza de la variable de respuesta y reduciendo el RMSE a 0,0072. El análisis de tendencias confirmó un calentamiento local significativo y un incremento de la demanda evaporativa potencial en el noreste de México. La validación frente a nueve eventos extremos documentados demostró la consistencia física y la capacidad diagnóstica del índice, con una concordancia direccional del 100\,\%. El análisis de régimen hidrológico reveló que la tasa de acumulación de estrés durante sequías duplica la observada en periodos normales, y que los ciclones tropicales actúan como eventos de ruptura tras ciclos de desecamiento prolongado.
+En este estudio se derivó y validó el Índice Compuesto de Estrés Hídrico (CHSI) para la cuenca del río Guayalejo-Tamesí a partir de 28~años de datos horarios ERA5-Land y aprendizaje automático comparativo. El Regresor de Gradient Boosting (GBR) demostró ser superior al modelo de Bosque Aleatorio, explicando el 99.58\,\% de la varianza de la variable de respuesta y reduciendo el RMSE a 0.0072. El análisis de tendencias confirmó un calentamiento local significativo y un incremento de la demanda evaporativa potencial en el noreste de México. La validación frente a nueve eventos extremos documentados demostró la consistencia física y la capacidad diagnóstica del índice, con una concordancia direccional del 100\,\%. El análisis de régimen hidrológico reveló que la tasa de acumulación de estrés durante sequías duplica la observada en periodos normales, y que los ciclones tropicales actúan como eventos de ruptura tras ciclos de desecamiento prolongado.
 
 Estos hallazgos establecen una línea base de reanálisis que valida la viabilidad de emplear aprendizaje automático para inferir parámetros hídricos complejos y no observables a partir de variables ambientales acopladas, sentando las bases para la reducción de escala con teledetección satelital de alta resolución.
 
